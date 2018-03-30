@@ -1,0 +1,46 @@
+.btn-mayora{
+    background-color: #d2b48c;
+    border-color: #d2b48c;
+    color: #ffffff;
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+
+.btn-mayora:hover, .btn-mayora:focus, .btn-mayora:active, .btn-mayora.active, .show > .btn-mayora.dropdown-toggle {
+    background-color: #B89E7C;
+    color: #FFFFFF;
+    border-color: #B89E7C;
+}
+.btn-mayora .caret {
+    border-top-color: #FFFFFF;
+}
+.btn-mayora.btn-link {
+    color: #E0C096;
+}
+.btn-mayora.btn-link:hover, .btn-mayora.btn-link:focus, .btn-mayora.btn-link:active, .btn-mayora.btn-link.active, .open > .btn-mayora.btn-link.dropdown-toggle {
+    background-color: transparent;
+    color: #B89E7C;
+}
+.btn-mayora.btn-link .caret {
+    border-top-color: #E0C096;
+}
+.btn-mayora .caret {
+    border-top-color: #FFFFFF;
+}
+.icon-mayora {
+    color: #d2b48c;
+}
+.division .line {
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 155px;
+    width: 45%;
+}
+.division .line.l,
+.division .line.l {
+    left: 0;
+}
+.division .line.r,
+.division .line.r {
+    right: 0;
+}

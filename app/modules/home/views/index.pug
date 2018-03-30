@@ -1,14 +1,264 @@
-//- This is how we extend a template using the 'extends' keyword
-extends ../../../templates/master.pug
+doctype html
+html(lang='en')
+	head
+		meta(charset='utf-8')
+		link(rel='icon', type='image/png', href='https://demos.creative-tim.com/paper-kit-2-pro/assets/img/favicon.ico')
+		link(rel='apple-touch-icon', sizes='76x76', href='/paper/img/apple-icon.png')
+		meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+		title Home - Mayora
+		meta(content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0', name='viewport')
+		meta(name='viewport', content='width=device-width')
+		link(href='/paper/css/bootstrap.min.css', rel='stylesheet')
+		link(href='/paper/css/paper-kitf066.css?v=2.1.0', rel='stylesheet')
+		link(href='/paper/css/demo.css', rel='stylesheet')
+		link(href='/paper/css/mayoraTheme.css', rel='stylesheet')
+		// Fonts and icons
+		link(href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700', rel='stylesheet', type='text/css')
+		link(href='/paper/font-awesome-4.7.0/css/font-awesome.min.css', rel='stylesheet')
+		link(href='/paper/css/nucleo/nucleo-icons.css', rel='stylesheet')
+		link(href='/paper/css/nucleo/nucleo.css', rel='stylesheet')
+	body
+		nav.navbar.navbar-expand-lg.fixed-top.navbar-transparent.nav-down(color-on-scroll='500')
+			.container
+				.navbar-translate
+					.navbar-header
+						a.navbar-brand(href='/index') MAYORA LOGO
+					button.navbar-toggler.navbar-burger(type='button', data-toggle='collapse', data-target='#navbarToggler', aria-controls='navbarTogglerDemo02', aria-expanded='false', aria-label='Toggle navigation')
+						span.navbar-toggler-bar
+						span.navbar-toggler-bar
+						span.navbar-toggler-bar
+				.collapse.navbar-collapse
+					ul.navbar-nav.ml-auto
+						li.nav-item
+							a.nav-link(href='javascript:void(0);' data-toggle='modal' data-target='#loginModal') Login
+						li.nav-item
+							a.nav-link(href='/signup') Signup
+		.page-carousel
+			.filter
+			#carouselExampleIndicators.carousel.slide(data-ride='carousel')
+				ol.carousel-indicators
+					li.active(data-target='#carouselExampleIndicators', data-slide-to='0')
+					li(data-target='#carouselExampleIndicators', data-slide-to='1')
+					li(data-target='#carouselExampleIndicators', data-slide-to='2')
+				.carousel-inner(role='listbox')
+					.carousel-item.active
+						.page-header(style="background-image: url('/paper/img/img-1.jpg');")
+							.filter
+							.content-center
+								.container
+									.row
+										.col-md-6.text-left
+											h1.title Mayora
+											h5
+												| A tenant and landlord online application. 
+												br
+												br
+												| Tenant users are able to search vacant apartments depending on what they like.
+												br
+												br
+												| Landlords can subscribe on the application and have their very own Management System where they can manage their rooms, tenants, and billing.
+											br
+											.buttons
+												a.btn.btn-mayora.btn-round.btn-lg(href='#explore')
+													| Get Started
+					.carousel-item
+						.page-header(style="background-image: url('/paper/img/img-2.jpg')")
+							.filter
+							.content-center
+								.container
+									.row
+										.col-md-8.ml-auto.mr-auto.text-center
+											h1.title Easy Searching of Apartments
+											h5
+												| Let us know where you want to stay and we will show every vacant apartments for you
+											br
+											.buttons
+												a.btn.btn-mayora.btn-round(href='#explore') Explore
+					.carousel-item
+						.page-header(style="background-image: url('https://images.unsplash.com/photo-1498063669468-89723a87123d?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=')")
+							.filter
+							.content-center
+								.container
+									.row
+										.col-md-7.ml-auto.text-right
+											h2.title
+												| Management for Landlords
+												h5
+													| You can now manage your tenants at ease. Just subscribe to us and we will provide all the necessary things for your management
+												br
+												.buttons
+													a.btn.btn-mayora.btn-round.btn-lg(href='#pricing')
+														i.fa.fa-bell
+														|  See Our Pricing
+				a.left.carousel-control.carousel-control-prev.btn-mayora(href='#carouselExampleIndicators', role='button', data-slide='prev')
+					span.fa.fa-angle-left
+					span.sr-only Previous
+				a.right.carousel-control.carousel-control-next.btn-mayora(href='#carouselExampleIndicators', role='button', data-slide='next')
+					span.fa.fa-angle-right
+					span.sr-only Next
+		.wrapper
+			.section.text-center.landing-section#explore
+				.container
+					.row
+						.col-md-8.ml-auto.mr-auto
+							h2.title How does this work for tenants?
+					br
+					br
+					.row
+						.col-md-3
+							.info
+								.icon.icon-mayora
+									i.nc-icon-outline.ui-1_zoom
+								.description
+									h4.info-title Search
+									p.description Specify location of your choice
+						.col-md-3
+							.info
+								.icon.icon-mayora
+									i.nc-icon-outline.location_position-marker
+								.description
+									h4.info-title Explore and Choose
+									p Explore and check the variety of vacant apartments available in the results
+						.col-md-3
+							.info
+								.icon.icon-mayora
+									i.nc-icon-outline.emoticons_like
+								.description
+									h4.info-title Inspect your Chosen Apartment
+									p Upon request for inspection schedule, we will assign you a date to inspect your chosen apartment
+						.col-md-3
+							.info
+								.icon.icon-mayora
+									i.nc-icon.nc-bulb-63
+								.description
+									h4.info-title Deal with the Landlord
+									p Let us know your final decision and we will process your rent request to the Landlord of your chosen apartment
+					.row
+						.col-12
+							a.btn.btn-mayora.btn-lg(href='/signup/tenant') Sign Up as Tenant
+			.section.text-center.landing-section
+				.container
+					.row
+						.col-md-6.ml-auto.mr-auto.text-center#pricing
+							h2.title Landlords
+							h5.description Subscribe to our app and get your own Management System for your apartment and you can post your vacant apartments and Mayora will broadcast it for you.
+								| Pretty easy, right? Choose the best plan that suits your budget.
+					.space-top
+					.row
+						.col
+							h3.title Our Pricing
+					.row
+						.col-md-6
+							.card.card-pricing(data-color='orange')
+								.card-body
+									.card-icon
+										span.icon-simple
+											i.nc-icon-outline.shopping_receipt-list-43
+									h3.card-title Php 10,000
+									p.card-description
+										| This is good for 6 months of use, and can be renewed
+									.card-footer
+										a.btn.btn-neutral.btn-round(href='#pablo') Choose Plan
+						.col-md-6
+							.card.card-pricing(data-color='blue')
+								.card-body
+									.card-icon
+										span.icon-simple
+											i.nc-icon-outline.shopping_receipt-list-43
+									h3.card-title Php 15,000
+									p.card-description
+										| This is good for 12 months of use, and can be renewed
+									.card-footer
+										a.btn.btn-neutral.btn-round(href='#pablo') Choose Plan
+			.section.landing-section
+				.container
+					.row
+						.col-md-8.ml-auto.mr-auto
+							h2.text-center Keep in touch?
+							form.contact-form
+								.row
+									.col-md-6
+										label Name
+										input.form-control(placeholder='Name')
+									.col-md-6
+										label Email
+										input.form-control(placeholder='Email')
+								label Message
+								textarea.form-control(rows='4', placeholder='Tell us your thoughts and feelings...')
+								.row
+									.col-md-4.offset-md-4
+										button.btn.btn-mayora.btn-lg.btn-fill Send Message
+		footer.footer.section-dark
+			.container
+				.row
+					nav.footer-nav
+						ul
+							li
+								a(href='/index/team') Our Team
+							li
+								a(href='/index/thisapp') About the App
+					.credits.ml-auto
+						span.copyright
+							| © 
+							script.
+								document.write(new Date().getFullYear())
+							| , made with 
+							i.fa.fa-heart.heart
+							|  by Mayora Team
+		//MODALS
+		#loginModal.modal.fade(tabindex='-1', role='dialog', aria-hidden='false')
+			.modal-dialog.modal-register
+				.modal-content
+					.modal-header.no-border-header.text-center
+						button.close(type='button', data-dismiss='modal', aria-label='Close')
+							span(aria-hidden='true') ×
+						h6.text-muted Welcome
+						h3.modal-title.text-center Log in to your account
+					form(method='POST' action='#')
+					.modal-body
+						.form-group
+							label Username
+							input.form-control(type='text', placeholder='Username' name='strUsername')
+						.form-group
+							label Password
+							input.form-control(type='password', placeholder='Password' name='strPassword')
+						button.btn.btn-block.btn-round.btn-mayora  Log in
+					.modal-footer.no-border-footer
+						span.text-muted.text-center
+							| Don't have an account yet? 
+							a(href='#paper-kit') Click Here
 
-//- This is how we insert dynamic content to extended templates
-block content
-    h1.title Welcome to ExpressJS!
-    p If you see a list of users below, then that means you have successfully queried data from the database.
-    hr
-    h3.title Users
-    ul
-        //- This is how we iterate through arrays and access
-        //- their elements
-        each user in users
-            li= `${user.id} - ${user.name} - ${user.age}`
+		// Core JS Files
+		script(src='/paper/js/jquery.min.js', type='text/javascript')
+		script(src='/paper/js/jquery-ui-1.12.1.custom.min.js', type='text/javascript')
+		script(src='/paper/js/popper.js', type='text/javascript')
+		script(src='/paper/js/bootstrap.min.js', type='text/javascript')
+		// Control Center for Paper Kit: parallax effects, scripts for the example pages etc
+		script(src='/paper/js/paper-kitf066.js?v=2.1.0')
+		//SMOOTH SCROLL
+		script.
+			$(document).ready(function(){
+				// Add smooth scrolling to all links
+				$("a").on('click', function(event) {
+
+					// Make sure this.hash has a value before overriding default behavior
+					if (this.hash !== "") {
+					// Prevent default anchor click behavior
+					event.preventDefault();
+
+					// Store hash
+					var hash = this.hash;
+
+					// Using jQuery's animate() method to add smooth page scroll
+					// The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+					$('html, body').animate({
+						scrollTop: $(hash).offset().top
+					}, 1500, function(){
+				
+						// Add hash (#) to URL when done scrolling (default click behavior)
+						window.location.hash = hash;
+					});
+					} // End if
+				});
+			});
+		

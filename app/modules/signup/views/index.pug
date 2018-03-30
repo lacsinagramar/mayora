@@ -1,0 +1,31 @@
+doctype html
+html
+    title Signup - Mayora
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(href='http://fonts.googleapis.com/css?family=PT+Sans:400,700|Merriweather:400italic,400', rel='stylesheet', type='text/css')
+    link(rel='stylesheet', href='codyHouse/css/reset.css')
+    // CSS reset
+    link(rel='stylesheet', href='codyHouse/css/style.css')
+    // Resource style
+
+    body
+        a.cd-nav-trigger.cd-text-replace(href='/index') Menu
+            span.cd-icon(aria-hidden='true')
+        .cd-projects-container
+            ul.cd-projects-previews
+                li
+                    a(href='/signup/tenant')
+                        .cd-project-title
+                            h2(style="font-size:50px") Tenant
+                            p(style="font-size:20px") Signup as a Tenant and search apartments
+                li
+                    a(href='/signup/landlord')
+                        .cd-project-title
+                            h2(style="font-size:50px") Landlord
+                            p(style="font-size:20px") Signup as Landlord and get a Management System.
+            button.scroll.cd-text-replace Scroll
+        // .cd-primary-nav
+        script(src='codyHouse/js/jquery-2.1.1.js')
+        script(src='codyHouse/js/main.js')
+        // Resource jQuery
