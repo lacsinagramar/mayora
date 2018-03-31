@@ -51,24 +51,29 @@ html(lang='en')
 										.row
 											.col-md-4
 												label(style='font-weight: bold;') First Name
-												input.form-control(type='text', placeholder='Enter your First Name' name='firstName')
+													small(style='color:red; font-size:15px;') *
+												input.form-control(type='text', placeholder='Enter your First Name' name='firstName' required)
 											.col-md-4
 												label(style='font-weight: bold;') Middle Name
 												input.form-control(type='text', placeholder='Enter your Middle Name' name='middleName')
 											.col-md-4
 												label(style='font-weight: bold;') Last Name
-												input.form-control(type='text', placeholder='Enter your Last Name' name='lastName')
+													small(style='color:red; font-size:15px;') *
+												input.form-control(type='text', placeholder='Enter your Last Name' name='lastName' required)
 									.form-group
 										label(style='font-weight: bold;') Address
-										input.form-control(type='text', placeholder='Enter your Address' name='address')
+											small(style='color:red; font-size:15px;') *
+										input.form-control(type='text', placeholder='Enter your Address' name='address' required)
 									.form-group
 										.row
 											.col-md-6
 												label(style='font-weight: bold;') Contact Number
-												input.form-control(type='text', placeholder='Enter your Contact Number' name='contactNumber')
+													small(style='color:red; font-size:15px;') *
+												input.form-control(type='text', placeholder='Enter your Contact Number' name='contactNumber' required)
 											.col-md-6
 												label(style='font-weight: bold;') Email
-												input.form-control(type='email', placeholder='Enter your Email' name='email')
+													small(style='color:red; font-size:15px;') *
+												input.form-control(type='email', placeholder='Enter your Email' name='email' required)
 									.form-group
 										.row
 											.col
@@ -85,7 +90,7 @@ html(lang='en')
 														span.btn.btn-default.btn-file.btn-round
 															span.fileinput-new Select image
 															span.fileinput-exists Change
-															input(type='file', name='validId')
+															input(type='file', name='validId' required)
 														a.btn.btn-link.btn-danger.fileinput-exists.btn-round(href='javascript:void(0)', data-dismiss='fileinput')
 															i.fa.fa-times
 															|  Remove
@@ -97,11 +102,13 @@ html(lang='en')
 													.row
 														.col-md-6
 															label(style='font-weight:bold;') Username
-															input.form-control(type='text', placeholder='Enter Username' name='username')
+																small(style='color:red; font-size:15px;') *
+															input.form-control(type='text', placeholder='Enter Username' name='username' required)
 														.col-md-6
 															label(style='font-weight:bold;') Password
-															input.form-control(type='password', placeholder='Enter Password' name='password')
-									button.btn.btn-block.btn-round.btn-success Register
+																small(style='color:red; font-size:15px;') *
+															input.form-control(type='password', placeholder='Enter Password' name='password' required)
+									button.btn.btn-block.btn-round.btn-success(type='submit') Register
 		//END MAIN CONTENT
 		//MODALS
 		#loginModal.modal.fade(tabindex='-1', role='dialog', aria-hidden='false')

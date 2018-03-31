@@ -59,7 +59,7 @@ html(lang='en')
 												| Landlords can subscribe on the application and have their very own Management System where they can manage their rooms, tenants, and billing.
 											br
 											.buttons
-												a.btn.btn-mayora.btn-round.btn-lg(href='#explore')
+												a.btn.btn-mayora.btn-round.btn-lg(href='/signup')
 													| Get Started
 					.carousel-item
 						.page-header(style="background-image: url('/paper/img/img-2.jpg')")
@@ -135,7 +135,7 @@ html(lang='en')
 									p Let us know your final decision and we will process your rent request to the Landlord of your chosen apartment
 					.row
 						.col-12
-							a.btn.btn-mayora.btn-lg(href='/signup/tenant') Sign Up as Tenant
+							a.btn.btn-mayora.btn-lg(href='/signup/tenant') Signup as Tenant
 			.section.text-center.landing-section
 				.container
 					.row
@@ -158,7 +158,7 @@ html(lang='en')
 									p.card-description
 										| This is good for 6 months of use, and can be renewed
 									.card-footer
-										a.btn.btn-neutral.btn-round(href='#pablo') Choose Plan
+										a.btn.btn-neutral.btn-round(href='/signup/landlord') Signup as Landlord
 						.col-md-6
 							.card.card-pricing(data-color='blue')
 								.card-body
@@ -169,7 +169,7 @@ html(lang='en')
 									p.card-description
 										| This is good for 12 months of use, and can be renewed
 									.card-footer
-										a.btn.btn-neutral.btn-round(href='#pablo') Choose Plan
+										a.btn.btn-neutral.btn-round(href='/signup/landlord') Signup as Landlord
 			.section.landing-section
 				.container
 					.row
@@ -194,9 +194,9 @@ html(lang='en')
 					nav.footer-nav
 						ul
 							li
-								a(href='/index/team') Our Team
+								a(href='/index/ourteam') Our Team
 							li
-								a(href='/index/thisapp') About the App
+								a(href='/index/abouttheapp') About the App
 					.credits.ml-auto
 						span.copyright
 							| © 
@@ -226,7 +226,7 @@ html(lang='en')
 					.modal-footer.no-border-footer
 						span.text-muted.text-center
 							| Don't have an account yet? 
-							a(href='#paper-kit') Click Here
+							a(href='/signup') Click Here
 
 		// Core JS Files
 		script(src='/paper/js/jquery.min.js', type='text/javascript')

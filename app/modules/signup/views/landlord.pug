@@ -18,6 +18,7 @@ html(lang='en')
 		link(href='http://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css', rel='stylesheet')
 		link(href='https://fonts.googleapis.com/css?family=Muli:400,300', rel='stylesheet', type='text/css')
 		link(href='/paperWizard/css/themify-icons.css', rel='stylesheet')
+		link(href='/paperWizard/css/dropify.css', rel='stylesheet')
 	body
 		//MAIN CONTENT
 		.image-container.set-full-height(style="background-image: url('/paperWizard/img/paper-1.jpeg')")
@@ -33,32 +34,37 @@ html(lang='en')
 						// Wizard container
 						.wizard-container
 							#wizardProfile.card.wizard-card(data-color='mayora')
-								form(action='', method='')
+								form(action='/signup/landlord', method='post')
 									// You can switch " data-color="orange" "  with one of the next bright colors: "blue", "green", "orange", "red", "azure"
 									.wizard-header.text-center
-										h3.wizard-title Create your profile
+										h3.wizard-title Register as Landlord
 										p.category This information will let us know more about you.
 									.wizard-navigation
 										.progress-with-circle
-											.progress-bar(role='progressbar', aria-valuenow='1', aria-valuemin='1', aria-valuemax='3', style='width: 21%;')
+											.progress-bar(role='progressbar', aria-valuenow='1', aria-valuemin='1', aria-valuemax='4', style='width: 21%;')
 										ul
 											li
-												a(href='#about', data-toggle='tab')
+												a(href='#info', data-toggle='tab')
 													.icon-circle
 														i.ti-user
-													| 												About
+													| Personal Info
 											li
-												a(href='#account', data-toggle='tab')
+												a(href='#credentials', data-toggle='tab')
 													.icon-circle
-														i.ti-settings
-													| 												Work
+														i.ti-id-badge
+													| Credentials
 											li
-												a(href='#address', data-toggle='tab')
+												a(href='#contract', data-toggle='tab')
 													.icon-circle
-														i.ti-map
-													| 												Address
+														i.ti-files
+													| Contract
+											li
+												a(href='#plan', data-toggle='tab')
+													.icon-circle
+														i.ti-money
+													| Subscription Plan
 									.tab-content
-										#about.tab-pane
+										#info.tab-pane
 											.row
 												h5.info-text  Please tell us more about yourself.
 												.col-sm-6.col-sm-offset-1
@@ -66,74 +72,86 @@ html(lang='en')
 														label
 															| First Name 
 															small(style='color:red') *
-														input.form-control(name='firstname', type='text', placeholder='Andrew...')
+														input.form-control(name='firstName', type='text', placeholder='Enter your First Name' required)
+													.form-group
+														label
+															| Middle Name 
+														input.form-control(name='middleName', type='text', placeholder='Enter your Middle Name')
 													.form-group
 														label
 															| Last Name 
 															small(style='color:red') *
-														input.form-control(name='lastname', type='text', placeholder='Smith...')
+														input.form-control(name='lastName', type='text', placeholder='Enter your Last Name' required)
 												.col-sm-10.col-sm-offset-1
 													.form-group
 														label
-															| Email 
+															| Address
 															small(style='color:red') *
-														input.form-control(name='email', type='email', placeholder='andrew@creative-tim.com')
-										#account.tab-pane
-											h5.info-text  What are you doing? (checkboxes) 
-											.row
-												.col-sm-8.col-sm-offset-2
-													.col-sm-4
-														.choice(data-toggle='wizard-checkbox')
-															input(type='checkbox', name='jobb', value='Design')
-															.card.card-checkboxes.card-hover-effect
-																i.ti-paint-roller
-																p Design
-													.col-sm-4
-														.choice(data-toggle='wizard-checkbox')
-															input(type='checkbox', name='jobb', value='Code')
-															.card.card-checkboxes.card-hover-effect
-																i.ti-pencil-alt
-																p Code
-													.col-sm-4
-														.choice(data-toggle='wizard-checkbox')
-															input(type='checkbox', name='jobb', value='Develop')
-															.card.card-checkboxes.card-hover-effect
-																i.ti-star
-																p Develop
-										#address.tab-pane
+														input.form-control(name='address', type='text', placeholder='Enter your Address' required)
+													.form-group
+														.row
+															.col-md-6
+																label Email Address
+																	small(style='color:red') *
+																input.form-control(type='email' name='emailAddress' placeholder='Enter your Email Address' required)
+															.col-md-6
+																label Contact Number
+																	small(style='color:red') *
+																input.form-control(type='text' name='contactNumber' placeholder='Enter your Contact Number' required)
+										#credentials.tab-pane
+											h5.info-text  Please provide all the credentials needed to verify your identity 
 											.row
 												.col-sm-12
-													h5.info-text  Are you living in a nice area? 
-												.col-sm-7.col-sm-offset-1
 													.form-group
-														label Street Name
-														input.form-control(type='text', placeholder='5h Avenue')
-												.col-sm-3
+														label(style='font-weight: bold;') Valid ID
+															small(style='color:red') *
+														input.dropify(type='file', data-height='100' name='validId' required)
 													.form-group
-														label Street Number
-														input.form-control(type='text', placeholder='242')
+														label(style='font-weight: bold;') BIR Permit (Scanned)
+															small(style='color:red') *
+														input.dropify(type='file', data-height='100' name='birPermit' required)
+													.form-group
+														label(style='font-weight: bold;') Land Title (Scanned)
+															small(style='color:red') *
+														input.dropify(type='file', data-height='100' name='landTitle' required)
+										#contract.tab-pane
+											.row
+												.col-sm-12
+													h5.info-text  Contract Business Rules
 												.col-sm-5.col-sm-offset-1
 													.form-group
-														label City
-														input.form-control(type='text', placeholder='New York...')
+														label Penalty
+															small (Percentage of Penalty if Paid over Due Date)
+															small(style='color:red') *
+														input.form-control(type='number', placeholder='Penalty Percentage' min='1' max='10' name='penalty' required)
 												.col-sm-5
 													.form-group
-														label Country
-														br
-														select.form-control(name='country')
-															option(value='Afghanistan')  Afghanistan 
-															option(value='Albania')  Albania 
-															option(value='Algeria')  Algeria 
-															option(value='American Samoa')  American Samoa 
-															option(value='Andorra')  Andorra 
-															option(value='Angola')  Angola 
-															option(value='Anguilla')  Anguilla 
-															option(value='Antarctica')  Antarctica 
-															option(value='...') ...
+														label Minimun Rental Duration
+															small (in months)
+															small(style='color:red') *
+														input.form-control(type='number' placeholder='Minimum Duration in months' min='6' max='24' name='minimumDuration' required)
+										#plan.tab-pane
+											h5.info-text Choose your Plan
+											.row
+												.col-sm-12.col-sm-offset-1
+													.col-sm-5
+														.choice(data-toggle='wizard-radio')
+															input(type='radio', name='plan', value='1')
+															.card.card-checkboxes.card-hover-effect
+																i.ti-receipt
+																h4 PhP 10,000
+																p 6 months Subscription
+													.col-sm-5
+														.choice(data-toggle='wizard-radio')
+															input(type='radio', name='plan', value='2')
+															.card.card-checkboxes.card-hover-effect
+																i.ti-receipt
+																h4 PhP 15,000
+																p 12 months Subscription
 									.wizard-footer
 										.pull-right
 											input.btn.btn-next.btn-mayora.btn-wd(type='button', name='next', value='Next')
-											input.btn.btn-finish.btn-mayora.btn-wd(type='button', name='finish', value='Finish')
+											input.btn.btn-finish.btn-mayora.btn-wd(type='submit')
 										.pull-left
 											input.btn.btn-previous.btn-default.btn-wd(type='button', name='previous', value='Previous')
 										.clearfix
@@ -141,11 +159,27 @@ html(lang='en')
 				// end row
 			// big container
 		//END MAIN CONTENT
-	// Core JS Files
-	script(src='/paperWizard/js/jquery-2.2.4.min.js', type='text/javascript')
-	script(src='/paperWizard/js/bootstrap.min.js', type='text/javascript')
-	script(src='/paperWizard/js/jquery.bootstrap.wizard.js', type='text/javascript')
-	// Plugin for the Wizard
-	script(src='/paperWizard/js/paper-bootstrap-wizard.js', type='text/javascript')
-	// More information about jquery.validate here: http://jqueryvalidation.org/
-	script(src='/paperWizard/js/jquery.validate.min.js', type='text/javascript')
+		// Core JS Files
+		script(src='/paperWizard/js/jquery-2.2.4.min.js', type='text/javascript')
+		script(src='/paperWizard/js/bootstrap.min.js', type='text/javascript')
+		script(src='/paperWizard/js/jquery.bootstrap.wizard.js', type='text/javascript')
+		// Plugin for the Wizard
+		script(src='/paperWizard/js/paper-bootstrap-wizard.js', type='text/javascript')
+		// More information about jquery.validate here: http://jqueryvalidation.org/
+		script(src='/paperWizard/js/jquery.validate.min.js', type='text/javascript')
+		//File Upload
+		script(src='/paperWizard/js/dropify.js')
+		//Form Validation
+		script(src='/paper/js/formValidation.js')
+		script.
+			$('.dropify').dropify({
+				messages: {
+					'default': 'Drag and drop a file here or click',
+					'replace': 'Drag and drop or click to replace',
+					'remove': 'Remove',
+					'error': 'Ooops, something wrong appended.'
+				},
+				error: {
+					'fileSize': 'The file size is too big (1M max).'
+				}
+			});

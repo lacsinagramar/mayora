@@ -19,10 +19,15 @@ router.get('/tenant', (req, res) =>{
     res.render('signup/views/tenant');
 });
 router.post('/tenant', (req, res) =>{
-    console.log('wala pa sis')
+    console.log('wala pa sis\n');
+    console.log(req.body);
 });
 
 router.get('/landlord', (req, res) =>{
     res.render('signup/views/landlord');
+});
+router.post('/landlord', (req, res) =>{
+    console.log('wala pa rin sis\n');
+    console.log(req.body);
 });
 exports.signup = router;

@@ -1444,8 +1444,9 @@ input[type="button"]:focus {
 .footer a {
   color: #FFFFFF;
 }
-.footer .heart {
-  color: #FF3B30;
+.heart {
+  color: #EB5E28;
+  animation: heathing 1s ease infinite;
 }
 
 @media (max-width: 768px) {
