@@ -5574,6 +5574,11 @@ strong {
   color: #EB5E28;
   opacity: 1;
 }
+.sidebar[data-active-color="mayora"] .nav li.active > a,
+.off-canvas-sidebar[data-active-color="mayora"] .nav li.active > a {
+  color: #d2b48c;
+  opacity: 1;
+}
 
 .main-panel {
   background-color: #f4f3ef;
