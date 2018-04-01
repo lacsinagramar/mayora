@@ -38,15 +38,6 @@ CREATE TABLE `tbl_bills` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tbl_bills`
---
-
-LOCK TABLES `tbl_bills` WRITE;
-/*!40000 ALTER TABLE `tbl_bills` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tbl_bills` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tbl_inspection`
 --
 
@@ -67,15 +58,6 @@ CREATE TABLE `tbl_inspection` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tbl_inspection`
---
-
-LOCK TABLES `tbl_inspection` WRITE;
-/*!40000 ALTER TABLE `tbl_inspection` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tbl_inspection` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tbl_landlord_account_payment`
 --
 
@@ -92,15 +74,6 @@ CREATE TABLE `tbl_landlord_account_payment` (
   CONSTRAINT `landlordPayment_FK` FOREIGN KEY (`strLandlordID`) REFERENCES `tbl_landlord_accounts` (`strLandlordID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tbl_landlord_account_payment`
---
-
-LOCK TABLES `tbl_landlord_account_payment` WRITE;
-/*!40000 ALTER TABLE `tbl_landlord_account_payment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tbl_landlord_account_payment` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tbl_landlord_accounts`
@@ -124,19 +97,11 @@ CREATE TABLE `tbl_landlord_accounts` (
   `strPassword` varchar(20) NOT NULL,
   `jsonContract` json NOT NULL,
   `strContactNumber` varchar(11) NOT NULL,
+  `booPlan` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`strLandlordID`),
   UNIQUE KEY `strUsername_UNIQUE` (`strUsername`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tbl_landlord_accounts`
---
-
-LOCK TABLES `tbl_landlord_accounts` WRITE;
-/*!40000 ALTER TABLE `tbl_landlord_accounts` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tbl_landlord_accounts` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tbl_notifications`
@@ -158,15 +123,6 @@ CREATE TABLE `tbl_notifications` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tbl_notifications`
---
-
-LOCK TABLES `tbl_notifications` WRITE;
-/*!40000 ALTER TABLE `tbl_notifications` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tbl_notifications` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tbl_own_meter`
 --
 
@@ -185,15 +141,6 @@ CREATE TABLE `tbl_own_meter` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tbl_own_meter`
---
-
-LOCK TABLES `tbl_own_meter` WRITE;
-/*!40000 ALTER TABLE `tbl_own_meter` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tbl_own_meter` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tbl_penalty`
 --
 
@@ -209,15 +156,6 @@ CREATE TABLE `tbl_penalty` (
   CONSTRAINT `billID_FK` FOREIGN KEY (`intBillID`) REFERENCES `tbl_bills` (`intBillID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tbl_penalty`
---
-
-LOCK TABLES `tbl_penalty` WRITE;
-/*!40000 ALTER TABLE `tbl_penalty` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tbl_penalty` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tbl_room_tenant`
@@ -240,15 +178,6 @@ CREATE TABLE `tbl_room_tenant` (
   CONSTRAINT `roomTenantTenantID_FK` FOREIGN KEY (`strTenantID`) REFERENCES `tbl_tenant_accounts` (`strTenantId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tbl_room_tenant`
---
-
-LOCK TABLES `tbl_room_tenant` WRITE;
-/*!40000 ALTER TABLE `tbl_room_tenant` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tbl_room_tenant` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tbl_rooms`
@@ -275,15 +204,6 @@ CREATE TABLE `tbl_rooms` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tbl_rooms`
---
-
-LOCK TABLES `tbl_rooms` WRITE;
-/*!40000 ALTER TABLE `tbl_rooms` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tbl_rooms` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tbl_rooms_picture`
 --
 
@@ -302,15 +222,6 @@ CREATE TABLE `tbl_rooms_picture` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tbl_rooms_picture`
---
-
-LOCK TABLES `tbl_rooms_picture` WRITE;
-/*!40000 ALTER TABLE `tbl_rooms_picture` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tbl_rooms_picture` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tbl_tenant_accounts`
 --
 
@@ -323,24 +234,15 @@ CREATE TABLE `tbl_tenant_accounts` (
   `strMiddleName` varchar(20) DEFAULT NULL,
   `strLastName` varchar(20) NOT NULL,
   `strValidID` longtext NOT NULL,
-  `intContactNo` int(11) NOT NULL,
+  `strContactNo` varchar(20) NOT NULL,
   `strEmail` varchar(30) NOT NULL,
   `strUsername` varchar(15) NOT NULL,
   `strPassword` varchar(20) NOT NULL,
-  `strAddress` varchar(30) NOT NULL,
+  `strAddress` varchar(50) NOT NULL,
   `booStatus` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`strTenantId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tbl_tenant_accounts`
---
-
-LOCK TABLES `tbl_tenant_accounts` WRITE;
-/*!40000 ALTER TABLE `tbl_tenant_accounts` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tbl_tenant_accounts` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tbl_with_submeter`
@@ -365,15 +267,6 @@ CREATE TABLE `tbl_with_submeter` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tbl_with_submeter`
---
-
-LOCK TABLES `tbl_with_submeter` WRITE;
-/*!40000 ALTER TABLE `tbl_with_submeter` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tbl_with_submeter` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Dumping events for database 'mayora'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -386,4 +279,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-31 16:45:41
+-- Dump completed on 2018-04-01 23:31:52
