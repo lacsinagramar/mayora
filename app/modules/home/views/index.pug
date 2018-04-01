@@ -207,6 +207,7 @@ html(lang='en')
 							| , made with 
 							i.fa.fa-heart.heart
 							|  by Mayora Team
+		form#redirect(method='get' action='')
 		//MODALS
 		#loginModal.modal.fade(tabindex='-1', role='dialog', aria-hidden='false')
 			.modal-dialog.modal-register
@@ -216,15 +217,14 @@ html(lang='en')
 							span(aria-hidden='true') ×
 						h6.text-muted Welcome
 						h3.modal-title.text-center Log in to your account
-					form(method='POST' action='#')
 					.modal-body
 						.form-group
 							label Username
-							input.form-control(type='text', placeholder='Username' name='strUsername')
+							input.form-control#strUsername(type='text', placeholder='Username')
 						.form-group
 							label Password
-							input.form-control(type='password', placeholder='Password' name='strPassword')
-						button.btn.btn-block.btn-round.btn-mayora  Log in
+							input.form-control#strPassword(type='password', placeholder='Password')
+						button.btn.btn-block.btn-round.btn-mayora#loginButton  Log in
 					.modal-footer.no-border-footer
 						span.text-muted.text-center
 							| Don't have an account yet? 
@@ -261,6 +261,16 @@ html(lang='en')
 						window.location.hash = hash;
 					});
 					} // End if
+				});
+
+				$('#loginButton').click(function(){
+					var strUsername = $('#strUsername').val();
+					var strPassword = $('#strPassword').val();
+
+					$.post('/login', {strUsername: strUsername, strPassword: strPassword})
+					.done(data =>{
+						$('#redirect').attr('action', ''+data.url).submit()
+					});
 				});
 			});
 		
