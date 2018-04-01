@@ -2032,7 +2032,7 @@ textarea.form-control {
   transition: all 0.4s;
   -webkit-transition: all 0.4s;
   padding: 0;
-  background: #FFFFFF;
+  background: #d2b48c;
   box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
 }
 .navbar .navbar-translate {
@@ -2043,7 +2043,7 @@ textarea.form-control {
   margin: 5px 0px;
   padding: 20px 15px;
   font-size: 14px;
-  color: #66615B;
+  color: #FFFFFF;
   text-transform: uppercase;
 }
 .navbar .navbar-nav .nav-item .nav-link {
@@ -2054,7 +2054,7 @@ textarea.form-control {
   font-size: 12px;
   text-transform: uppercase;
   font-weight: 600;
-  color: #66615B;
+  color: #FFFFFF;
 }
 .navbar .navbar-nav .nav-item .nav-link.btn {
   margin: 15px 3px;

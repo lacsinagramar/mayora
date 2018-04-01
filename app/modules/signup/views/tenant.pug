@@ -2,8 +2,8 @@ doctype html
 html(lang='en')
 	head
 		meta(charset='utf-8')
-		link(rel='icon', type='image/png', href='https://demos.creative-tim.com/paper-kit-2-pro/assets/img/favicon.ico')
-		link(rel='apple-touch-icon', sizes='76x76', href='/paper/img/apple-icon.png')
+		link(rel='icon', type='image/png', href='/logo/logo-black.png')
+		link(rel='apple-touch-icon', sizes='76x76', href='/logo/logo-black.png')
 		meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
 		title Signup - Tenant
 		meta(content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0', name='viewport')
@@ -22,14 +22,16 @@ html(lang='en')
 			.container
 				.navbar-translate
 					.navbar-header
-						a.navbar-brand(href='/index') MAYORA LOGO
+						a.navbar-brand(href='/index' style='font-size:15px')
+							img(src='/logo/logo-white.png' style='width:35px; height:35px')
+							| ayora
 					button.navbar-toggler.navbar-burger(type='button', data-toggle='collapse', data-target='#navbarToggler', aria-controls='navbarTogglerDemo02', aria-expanded='false', aria-label='Toggle navigation')
 						span.navbar-toggler-bar
 						span.navbar-toggler-bar
 						span.navbar-toggler-bar
 		//MAIN CONTENT
 		.wrapper(style='height: 100%')
-			.page-header(style="background-image: url('/paper/img/img-1.jpg');")
+			.page-header(style="background-image: url('/paper/img/sections/vincent-versluis.jpg');")
 				.filter
 				.container
 					br
@@ -40,13 +42,14 @@ html(lang='en')
 					br
 					.row
 						.col-md-12
-							.card(style='padding:20px;padding-top:0px')
+							.card.no-transition(style='padding:20px;padding-top:0px')
 								h3.card-title.text-center Register as a Tenant
 								br
 								h5.text-center Personal Info
 								br
 								br
-								form(method='post' action='/signup/tenant')
+								form(method='post' action='/signup/tenant' enctype='multipart/form-data')
+									input(type='hidden' name='tenantId' value=`${bilang.BILANG}`)
 									.form-group
 										.row
 											.col-md-4
@@ -90,7 +93,7 @@ html(lang='en')
 														span.btn.btn-default.btn-file.btn-round
 															span.fileinput-new Select image
 															span.fileinput-exists Change
-															input(type='file', name='validId' required)
+															input(type='file', name='validId' accept='image/*' required)
 														a.btn.btn-link.btn-danger.fileinput-exists.btn-round(href='javascript:void(0)', data-dismiss='fileinput')
 															i.fa.fa-times
 															|  Remove
