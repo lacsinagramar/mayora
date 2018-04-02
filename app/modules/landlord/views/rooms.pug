@@ -1,6 +1,5 @@
 doctype html
 html(lang='en')
-	// Mirrored from demos.creative-tim.com/paper-dashboard-pro/examples/dashboard/overview.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 29 Mar 2018 17:11:03 GMT
 	head
 		meta(charset='utf-8')
 		link(rel='icon', type='image/png', href='/logo/logo-black.png')
@@ -113,26 +112,19 @@ html(lang='en')
 								li.dropdown
 									a.dropdown-toggle.btn-rotate(href='#notifications', data-toggle='dropdown')
 										i.ti-bell
-										span.notification 5
+										span.notification #{user.notif.length}
 										p.hidden-md.hidden-lg
 											| Notifications
 											b.caret
 									ul.dropdown-menu
-										li
-											a(href='#not1') Notification 1
-										li
-											a(href='#not2') Notification 2
-										li
-											a(href='#not3') Notification 3
-										li
-											a(href='#not4') Notification 4
-										li
-											a(href='#another') Another notification
+										each notif in user.notif
+											li
+												a.notifAlert(href='javascript:void(0)' value=`${notif.intNotifID}`) #{notif.strNotifDesc}
 				.content
 					.container-fluid
 						.row
-							.col-lg-4.col-sm-6
-								each room in roomsForPug
+							each room in roomsForPug
+								.col-md-4
 									.card
 										.card-content
 											.row
@@ -327,6 +319,7 @@ html(lang='en')
 					button.pswp__button.pswp__button--arrow--right(title='Next (arrow right)')
 					.pswp__caption
 						.pswp__caption__center
+		form#contract(method='get' action='/landlord/contract')
 		// Core JS Files. Extra: TouchPunch for touch library inside jquery-ui.min.js
 		script(src='/paperDashboard/js/jquery-3.1.1.min.js', type='text/javascript')
 		script(src='/paperDashboard/js/jquery-ui.min.js', type='text/javascript')
@@ -604,5 +597,22 @@ html(lang='en')
 					$('#roomModalTitle').empty()
 					$('#roomDetails').empty()
 					$('#roomModalGallery').empty();
+				});
+				$('.notifAlert').click(function(){
+					swal({
+						title: "Accept Request?",
+						text: "Once you accept, you will proceed to contract signing",
+						icon: "warning",
+						buttons: true,
+						dangerMode: true,
+					})
+					.then((accepted) => {
+						if (accepted) {
+							$.post('/landlord/savenotifID', {id: $(this).val()})
+							.done(data =>{
+								$('#contract').submit();
+							})
+						}
+					});
 				});
 			});

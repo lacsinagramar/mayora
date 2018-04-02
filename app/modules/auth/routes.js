@@ -23,7 +23,9 @@ loginRouter.post('/', (req, res) =>{
             req.session.user = user;
 
             console.log(req.session);
-            return res.send({url: '/tenant'})
+            var url = {url: '/tenant'};
+            var queryStringNotif = `SELECT * FROM tbl_tenant_notifications WHERE strTenantId = '${req.session.user.strTenantId}'`;
+            return queryNotif(url, queryStringNotif);
         });
     }
 
@@ -41,7 +43,19 @@ loginRouter.post('/', (req, res) =>{
 
             req.session.user = user;
 
-            return res.send({url: '/landlord'})
+            var url = {url: '/landlord'};
+            var queryStringNotif = `SELECT * FROM tbl_landlord_notifications WHERE strLandlordID = '${req.session.user.strLandlordID}'`;
+            return queryNotif(url, queryStringNotif)
+        });
+    }
+
+    function queryNotif(x, y){
+        db.query(y,(err, results, fields) =>{
+            if(err) return console.log(err);
+
+            req.session.user.notif = results;
+
+            return res.send(x);
         });
     }
 

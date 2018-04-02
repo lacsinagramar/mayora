@@ -1,0 +1,253 @@
+doctype html
+html(lang='en')
+	head
+		meta(charset='utf-8')
+		link(rel='icon', type='image/png', href='/logo/logo-black.png')
+		link(rel='apple-touch-icon', sizes='76x76', href='/logo/logo-black.png')
+		meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+		title Mayora - Tenant
+		meta(content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0', name='viewport')
+		meta(name='viewport', content='width=device-width')
+		link(href='/paper/css/bootstrap.min.css', rel='stylesheet')
+		link(href='/paper/css/paper-kitf066.css?v=2.1.0', rel='stylesheet')
+		link(href='/paper/css/demo.css', rel='stylesheet')
+		link(href='/paper/css/mayoraTheme.css', rel='stylesheet')
+		// Fonts and icons
+		link(href='/paper/fonts/montserrat.css?family=Montserrat:400,300,700', rel='stylesheet', type='text/css')
+		link(href='/paper/font-awesome-4.7.0/css/font-awesome.min.css', rel='stylesheet')
+		link(href='/paper/css/nucleo/nucleo-icons.css', rel='stylesheet')
+		link(href='/paper/css/nucleo/nucleo.css', rel='stylesheet')
+		//photoswipe
+		link(rel="stylesheet", href="/paper/css/photoswipe.css")
+		// Sweetalert
+		link(href='/paperDashboard/css/sweetalert.css', rel='stylesheet')
+	body
+		nav.navbar.navbar-expand-lg.fixed-top.navbar-transparent(color-on-scroll='50')
+			.container
+				.navbar-translate
+					.navbar-header
+						a.navbar-brand(href='/index' style='font-size:15px')
+							img(src='/logo/logo-white.png' style='width:35px; height:35px')
+							| ayora
+					button.navbar-toggler.navbar-burger(type='button', data-toggle='collapse', data-target='#navbarToggler', aria-controls='navbarTogglerDemo02', aria-expanded='false', aria-label='Toggle navigation')
+						span.navbar-toggler-bar
+						span.navbar-toggler-bar
+						span.navbar-toggler-bar
+				.collapse.navbar-collapse
+					ul.navbar-nav.ml-auto
+						li.nav-item
+							p.nav-link Welcome! #{user.strFirstName} #{user.strLastName}
+						li.nav-item
+							a.nav-link(href='/logout') Logout
+		.wrapper
+			.section.landing(style="background-image: url('/paper/img/img-2.jpg')")
+				.container
+					.row(style='margin-top:100px')
+						.col-md-12.mr-auto.text-center
+							form.form-inline.search-form(role='search' method='get' action='/tenant')
+								.input-group.no-border
+									span#basic-addon1.input-group-addon.addon-xtreme.no-border Search
+										i.fa.fa-search
+									input.form-control.input-xtreme.no-border(type='text', name='location' placeholder='Location...')
+									button(type='submit' style='display:none;')
+					.row
+						.col-md-12
+							- console.log(rooms)
+							- if(rooms.length == 0)
+								h2.title.text-center(style='color:white') No Results
+							- if(rooms.length > 0)
+								h2.title.text-center(style='color:white') Vacant Apartments	
+					.row
+						each room in rooms
+							.col-md-4
+								.card.card-blog
+									.card-body
+										h6.card-category.text-success PhP #{room.dblMonthlyFee}
+										h5.card-title
+											| Room ID #{room.intRoomID}
+										p.card-description
+											| Location: #{room.strLocation}
+											br
+											| Person Capacity: #{room.intPaxCapacity}
+											br
+											- if(room.booCR == 0)
+												| With Comfort Room: No
+											- if(room.booCR == 1)
+												| With Comfort Room: Yes
+											br
+											- if(room.booKitchen == 0)
+												| With Kitchen: No
+											- if(room.booKitchen == 1)
+												| With Kitchen: Yes
+											br
+											- if(room.booGarage == 0)
+												| With Garage: No
+											- if(room.booGarage == 1)
+												| With Garage: Yes
+											br
+											- if(room.booOwnMeter == 0)
+												| With Own Electric and Water Meter: No
+											- if(room.booOwnMeter == 1)
+												| With Own Electric and Water Meter: Yes
+										hr
+										.card-footer
+											.author
+												a(href='#pablo')
+													small Down Payment: #{room.strDownPaymentRule}
+											.stats
+												button.btn.btn-sm.btn-link.btn-info.viewPictures(type='button' value=`${room.intRoomID}`) View Pictures
+												button.btn.btn-sm.btn-link.btn-success.rentRoom(type='button' value=`${room.intRoomID}`) Rent
+		footer.footer.section-dark
+			.container
+				.row
+					nav.footer-nav
+						ul
+							li
+								a(href='/index/ourteam') Our Team
+							li
+								a(href='/index/abouttheapp') About the App
+					.credits.ml-auto
+						span.copyright
+							| © 
+							script.
+								document.write(new Date().getFullYear())
+							| , made with 
+							i.fa.fa-heart.heart
+							|  by Mayora Team
+		//MODALS
+		#roomModal.modal.fade(tabindex='-1', role='dialog', aria-hidden='false')
+			.modal-dialog.modal-register
+				.modal-content
+					.modal-header.no-border-header.text-center#roomModalTitle
+					.modal-body
+						form(method='POST' action='#')
+							center
+								h4.text-muted Room Pictures
+							.my-gallery(itemscope='', itemtype='')
+								.row#roomModalGallery
+		//GALLERY
+		.pswp(tabindex='-1', role='dialog', aria-hidden='true')
+			//
+				Background of PhotoSwipe.
+				It's a separate element as animating opacity is faster than rgba().
+			.pswp__bg
+			// Slides wrapper with overflow:hidden.
+			.pswp__scroll-wrap
+				//
+					Container that holds slides.
+					PhotoSwipe keeps only 3 of them in the DOM to save memory.
+					Don't modify these 3 pswp__item elements, data is added later on.
+				.pswp__container
+					.pswp__item
+					.pswp__item
+					.pswp__item
+				// Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed.
+				.pswp__ui.pswp__ui--hidden
+					.pswp__top-bar
+						// Controls are self-explanatory. Order can be changed.
+						.pswp__counter
+						button.pswp__button.pswp__button--close(title='Close (Esc)')
+						button.pswp__button.pswp__button--share(title='Share')
+						button.pswp__button.pswp__button--fs(title='Toggle fullscreen')
+						button.pswp__button.pswp__button--zoom(title='Zoom in/out')
+						// Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR
+						// element will get class pswp__preloader--active when preloader is running
+						.pswp__preloader
+							.pswp__preloader__icn
+								.pswp__preloader__cut
+									.pswp__preloader__donut
+					.pswp__share-modal.pswp__share-modal--hidden.pswp__single-tap
+						.pswp__share-tooltip
+					button.pswp__button.pswp__button--arrow--left(title='Previous (arrow left)')
+					button.pswp__button.pswp__button--arrow--right(title='Next (arrow right)')
+					.pswp__caption
+						.pswp__caption__center
+		form#reload(method='get' action='/tenant')
+		// Core JS Files
+		script(src='/paper/js/jquery.min.js', type='text/javascript')
+		script(src='/paper/js/jquery-ui-1.12.1.custom.min.js', type='text/javascript')
+		script(src='/paper/js/popper.js', type='text/javascript')
+		script(src='/paper/js/bootstrap.min.js', type='text/javascript')
+		// Control Center for Paper Kit: parallax effects, scripts for the example pages etc
+		// Photoswipe files
+		script(src='/paper/js/photo_swipe/photoswipe.min.js')
+		script(src='/paper/js/photo_swipe/photoswipe-ui-default.min.js')
+		script(src='/paper/js/photo_swipe/init-gallery.js')
+		script(src='/paper/js/paper-kitf066.js?v=2.1.0')
+		// sweetalert
+		script(src='/paperDashboard/js/sweetalert.js')
+		script.
+			$(document).ready(function(){
+				$('.viewPictures').click(function(){
+					var idNow = $(this).val();
+					$('#roomModalTitle').append(`<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+						<h3 class="modal-title text-center">Room ${idNow}</h3>`)
+					$.post('/tenant/queryroompics', {id: idNow})
+					.done(data =>{
+						for(var x = 0; x<data.length; x++){
+							$('#roomModalGallery').append(`<figure itemprop="associatedMedia" itemscope="" itemtype="" class="col-md-3 col-sm-4 gallery-item"><a href="${data[x].strPicture}" itemprop="contentUrl" data-size="1002x1002"><img src="${data[x].strPicture}" itemprop="thumbnail" alt="Image description" class="vertical-image img-rounded img-responsive"/></a>
+								<figcaption itemprop="caption description" class="gallery-caption">${data[x].strPictureDesc}</figcaption>
+								</figure>`)
+						}
+						$('#roomModal').modal('show');
+					});
+				});
+				$('#roomModal').on('hidden.bs.modal', function(){
+					$('#roomModalTitle').empty()
+					$('#roomModalGallery').empty();
+				});
+				$('.rentRoom').click(function(){
+					var roomID = $(this).val();
+					swal({
+						title: "Are you sure?",
+						text: "Once you request, there's no turning back",
+						icon: "warning",
+						buttons: true,
+						dangerMode: true,
+					})
+					.then((willRent) => {
+						if (willRent) {
+							$.post('/tenant/requestrent', {id: roomID})
+							.done(data =>{
+								swal("You are now pending to the list of the landlord of this apartment", {
+									icon: "success",
+									title: "Request Sent"
+								});
+								$('#reload').submit();
+							});
+						} else {
+							swal("Rent request is cancelled", {
+								icon: "error",
+								title: "Request Cancelled"
+							});
+						}
+					});
+				});
+			});
+		//SMOOTH SCROLL
+		script.
+			$(document).ready(function(){
+				// Add smooth scrolling to all links
+				$("a").on('click', function(event) {
+
+					// Make sure this.hash has a value before overriding default behavior
+					if (this.hash !== "") {
+					// Prevent default anchor click behavior
+					event.preventDefault();
+
+					// Store hash
+					var hash = this.hash;
+
+					// Using jQuery's animate() method to add smooth page scroll
+					// The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+					$('html, body').animate({
+						scrollTop: $(hash).offset().top
+					}, 1500, function(){
+				
+						// Add hash (#) to URL when done scrolling (default click behavior)
+						window.location.hash = hash;
+					});
+					} // End if
+				});
+			});
+		

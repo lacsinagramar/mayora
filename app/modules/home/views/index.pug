@@ -13,7 +13,7 @@ html(lang='en')
 		link(href='/paper/css/demo.css', rel='stylesheet')
 		link(href='/paper/css/mayoraTheme.css', rel='stylesheet')
 		// Fonts and icons
-		link(href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700', rel='stylesheet', type='text/css')
+		link(href='/paper/fonts/montserrat.css?family=Montserrat:400,300,700', rel='stylesheet', type='text/css')
 		link(href='/paper/font-awesome-4.7.0/css/font-awesome.min.css', rel='stylesheet')
 		link(href='/paper/css/nucleo/nucleo-icons.css', rel='stylesheet')
 		link(href='/paper/css/nucleo/nucleo.css', rel='stylesheet')
@@ -224,7 +224,7 @@ html(lang='en')
 						.form-group
 							label Password
 							input.form-control#strPassword(type='password', placeholder='Password')
-						button.btn.btn-block.btn-round.btn-mayora#loginButton  Log in
+						button.btn.btn-block.btn-round.btn-mayora#loginButton(type='submit')  Log in
 					.modal-footer.no-border-footer
 						span.text-muted.text-center
 							| Don't have an account yet? 

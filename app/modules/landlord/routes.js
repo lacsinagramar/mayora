@@ -131,4 +131,13 @@ router.post('/queryroompic', (req, res) =>{
     }
 });
 
+router.post('/savenotifID', (req, res) =>{
+    req.session.notifID = req.body.id;
+    res.send(true);
+});
+
+router.get('/contract', (req, res) =>{
+    res.render('landlord/views/contract');
+});
+
 exports.landlord = router;
