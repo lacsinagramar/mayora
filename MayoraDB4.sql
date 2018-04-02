@@ -48,13 +48,12 @@ CREATE TABLE `tbl_inspection` (
   `intInspectionID` int(11) NOT NULL AUTO_INCREMENT,
   `intRoomID` int(11) NOT NULL,
   `strTenantID` varchar(10) NOT NULL,
-  `datInspectionDate` date NOT NULL,
   PRIMARY KEY (`intInspectionID`),
   KEY `room_FK_idx` (`intRoomID`),
   KEY `tenant_FK_idx` (`strTenantID`),
   CONSTRAINT `room_FK` FOREIGN KEY (`intRoomID`) REFERENCES `tbl_rooms` (`intRoomID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `tenant_FK` FOREIGN KEY (`strTenantID`) REFERENCES `tbl_tenant_accounts` (`strTenantId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,7 +71,7 @@ CREATE TABLE `tbl_landlord_account_payment` (
   PRIMARY KEY (`intAccountPaymentID`),
   KEY `landlordPayment_FK_idx` (`strLandlordID`),
   CONSTRAINT `landlordPayment_FK` FOREIGN KEY (`strLandlordID`) REFERENCES `tbl_landlord_accounts` (`strLandlordID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,22 +103,21 @@ CREATE TABLE `tbl_landlord_accounts` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tbl_notifications`
+-- Table structure for table `tbl_landlord_notifications`
 --
 
-DROP TABLE IF EXISTS `tbl_notifications`;
+DROP TABLE IF EXISTS `tbl_landlord_notifications`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tbl_notifications` (
-  `intNotificationID` int(11) NOT NULL AUTO_INCREMENT,
-  `strAccountID` varchar(10) NOT NULL,
+CREATE TABLE `tbl_landlord_notifications` (
+  `intNotifID` int(11) NOT NULL AUTO_INCREMENT,
+  `strLandlordID` varchar(10) NOT NULL,
   `strNotifDesc` longtext NOT NULL,
   `booStatus` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`intNotificationID`),
-  KEY `notifTenant_FK_idx` (`strAccountID`),
-  CONSTRAINT `notifLandlord_FK` FOREIGN KEY (`strAccountID`) REFERENCES `tbl_landlord_accounts` (`strLandlordID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `notifTenant_FK` FOREIGN KEY (`strAccountID`) REFERENCES `tbl_tenant_accounts` (`strTenantId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`intNotifID`),
+  KEY `landlordnotifID_FK_idx` (`strLandlordID`),
+  CONSTRAINT `landlordnotifID_FK` FOREIGN KEY (`strLandlordID`) REFERENCES `tbl_landlord_accounts` (`strLandlordID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -188,7 +186,7 @@ DROP TABLE IF EXISTS `tbl_rooms`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tbl_rooms` (
   `intRoomID` int(11) NOT NULL AUTO_INCREMENT,
-  `intLandlordID` int(11) NOT NULL,
+  `strLandlordID` varchar(10) NOT NULL,
   `strLocation` varchar(200) NOT NULL,
   `dblMonthlyFee` double NOT NULL,
   `intPaxCapacity` int(11) NOT NULL,
@@ -198,9 +196,11 @@ CREATE TABLE `tbl_rooms` (
   `intBedrooms` int(11) NOT NULL,
   `strDownPaymentRule` varchar(200) NOT NULL,
   `booOwnMeter` tinyint(1) NOT NULL DEFAULT '0',
-  `booStatus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`intRoomID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `booStatus` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`intRoomID`),
+  KEY `landlordIDRoom_FK_idx` (`strLandlordID`),
+  CONSTRAINT `landlordIDRoom_FK` FOREIGN KEY (`strLandlordID`) REFERENCES `tbl_landlord_accounts` (`strLandlordID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,7 +218,7 @@ CREATE TABLE `tbl_rooms_picture` (
   PRIMARY KEY (`intRoomPictureID`),
   KEY `RoomPicture_FK_idx` (`intRoomID`),
   CONSTRAINT `RoomPicture_FK` FOREIGN KEY (`intRoomID`) REFERENCES `tbl_rooms` (`intRoomID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -240,7 +240,26 @@ CREATE TABLE `tbl_tenant_accounts` (
   `strPassword` varchar(20) NOT NULL,
   `strAddress` varchar(50) NOT NULL,
   `booStatus` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`strTenantId`)
+  PRIMARY KEY (`strTenantId`),
+  UNIQUE KEY `strUsername_UNIQUE` (`strUsername`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tbl_tenant_notifications`
+--
+
+DROP TABLE IF EXISTS `tbl_tenant_notifications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_tenant_notifications` (
+  `intNotifID` int(11) NOT NULL AUTO_INCREMENT,
+  `strTenantId` varchar(10) NOT NULL,
+  `strNotifDesc` longtext NOT NULL,
+  `booStatus` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`intNotifID`),
+  KEY `tenantNotifID_FK_idx` (`strTenantId`),
+  CONSTRAINT `tenantNotifID_FK` FOREIGN KEY (`strTenantId`) REFERENCES `tbl_tenant_accounts` (`strTenantId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -279,4 +298,4 @@ CREATE TABLE `tbl_with_submeter` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-01 23:31:52
+-- Dump completed on 2018-04-03  3:12:39
