@@ -20,6 +20,8 @@ html(lang='en')
 		link(href='/paperDashboard/css/themify-icons.css', rel='stylesheet')
 		link(rel="stylesheet", href="/paper/css/photoswipe.css")
 		link(href='/paperWizard/css/dropify.css', rel='stylesheet')
+		// Sweetalert
+		link(href='/paperDashboard/css/sweetalert.css', rel='stylesheet')
 	body
 		.wrapper
 			.sidebar(data-background-color='brown', data-active-color='mayora')
@@ -177,18 +179,12 @@ html(lang='en')
 			.modal-dialog.modal-register
 				.modal-content
 					.modal-header.no-border-header.text-center#roomModalTitle
-						button.close(type='button', data-dismiss='modal', aria-label='Close')
-							span(aria-hidden='true') ×
 					.modal-body
 						form(method='POST' action='#')
 							center
 								h4.text-muted Room Pictures
 							.my-gallery(itemscope='', itemtype='')
 								.row#roomModalGallery
-									figure.col-md-3.col-sm-4.gallery-item(itemprop='associatedMedia', itemscope='', itemtype='')
-										a(href='/paper/img/img-1.jpg', itemprop='contentUrl', data-size='750x1002')
-											img.vertical-image.img-rounded.img-responsive(src='/paper/img/img-1.jpg', itemprop='thumbnail', alt='Image description')
-										figcaption.gallery-caption(itemprop='caption description') Living Room
 								.row
 									.col-md-12#roomDetails
 					.modal-footer.no-border-footer
@@ -356,6 +352,8 @@ html(lang='en')
 		script(src='/paper/js/photo_swipe/init-gallery.js')
 		//File Upload
 		script(src='/paperWizard/js/dropify.js')
+		// sweetalert
+		script(src='/paperDashboard/js/sweetalert.js')
 		script.
 			$('.dropify').dropify({
 				messages: {
@@ -377,42 +375,17 @@ html(lang='en')
 					$('.palit').attr('readonly', false);
 					$('.palit').attr('required', true);
 				});
-				$('#cancelButton').click(function(){
-					$('#editSubmitButton').css('display', 'none');
-					$(this).css('display', 'none');
-					$('#editButton').css('display', 'block');
-					$('.palit').attr('readonly', true);
-					$('.palit').attr('required', false);
-				});
-				$('#editSubmitButton').click(function(){
-					$.post('/landlord/editroom', {monthlyRent:$('#monthlyRent').val(), 
-						personCapacity:$('#person').val(), 
-						CR:$('#CR').val(),
-						kitchen:$('#kitchen').val(), 
-						garage:$('#garage').val(), 
-						meter:$('#meter').val(),
-						numberOfBedrooms:$('#bedrooms').val(),
-						downPayment:$('#downpayment').val()
-						})
-					.done(data =>{
-						if(data){
-							alert('okii');
-							$('#editSubmitButton').css('display', 'none');
-							$('#cancelButton').css('display', 'none');
-							$('#editButton').css('display', 'block');
-							$('.palit').attr('readonly', true);
-							$('.palit').attr('required', false);
-						}
-					});
-				});
+				
 				$('.picAddButton').click(function(){
 					$('#picAddForm').append(`<input type='hidden' name='roomID' value='${$(this).val()}'/>`)
 					$('#picAddModal').modal('show');
 				});
 				$('.roomButton').click(function(){
-					$.post('/landlord/queryroompic', {id: $(this).val()})
+					var idNow = $(this).val();
+					$.post('/landlord/queryroompic', {id: idNow})
 					.done(data =>{
-						$('#roomModalTitle').append(`<h3 class="modal-title text-center">Room ${data.intRoomID}</h3>`)
+						$('#roomModalTitle').append(`<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+						<h3 class="modal-title text-center">Room ${data.intRoomID}</h3>`)
 						$('#roomDetails').append(`<center>
 							<h4 class="text-muted">Room Details</h4>
 							</center>
@@ -426,6 +399,12 @@ html(lang='en')
 							<div class="col-md-7">
 								<label>Person Capacity</label>
 								<input id="person" type="number" name="personCapacity" value="${data.intPaxCapacity}" readonly="readonly" class="form-control palit"/>
+							</div>
+							</div>
+							<div class="row">
+							<div class="col-md-7">
+								<label>Location</label>
+								<input id="location" type="text" name="location" value="${data.strLocation}" readonly="readonly" class="form-control palit"/>
 							</div>
 							</div>
 							<div class="row" id="row1">
@@ -456,14 +435,14 @@ html(lang='en')
 						if(data.booCR == 1 && data.booKitchen == 1){
 							$('#row1').append(`<div class="col-md-6">
 								<label>With Comfort Room</label>
-								<select id="CR" name="CR" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+								<select id="CR" name="CR" data-size="2" data-style="btn btn-mayora btn-block" readonly class="selectpicker palit">
 									<option value="1" selected="selected">Yes</option>
 									<option value="0">No</option>
 								</select>
 							</div>
 							<div class="col-md-6">
 								<label>With Kitchen</label>
-								<select id="kitchen" name="kitchen" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+								<select id="kitchen" name="kitchen" data-size="2" data-style="btn btn-mayora btn-block" readonly class="selectpicker palit">
 									<option value="1" selected>Yes</option>
 									<option value="0">No</option>
 								</select>
@@ -582,11 +561,48 @@ html(lang='en')
 									</select>
 								</div>`)
 						}
-						$('.selectpicker').each(function () {
-							var $selectpicker = $(this);
-							Plugin.call($selectpicker, $selectpicker.data());
-						})
+						$('.selectpicker').selectpicker({});
+						for(var x = 0; x<data.count; x++){
+							$('#roomModalGallery').append(`<figure itemprop="associatedMedia" itemscope="" itemtype="" class="col-md-3 col-sm-4 gallery-item"><a href="${data.pictureGallery[x].strPicture}" itemprop="contentUrl" data-size="1002x1002"><img src="${data.pictureGallery[x].strPicture}" itemprop="thumbnail" alt="Image description" class="vertical-image img-rounded img-responsive"/></a>
+								<figcaption itemprop="caption description" class="gallery-caption">${data.pictureGallery[x].strPictureDesc}</figcaption>
+								</figure>`)
+						}
 						$('#roomModal').modal('show');
+						$('#cancelButton').click(function(){
+							$('#editSubmitButton').css('display', 'none');
+							$(this).css('display', 'none');
+							$('#editButton').css('display', 'block');
+							$('.palit').attr('readonly', true);
+							$('.palit').attr('required', false);
+						});
+						$('#editSubmitButton').click(function(){
+							$.post('/landlord/editroom', {monthlyRent:$('#monthlyRent').val(), 
+								personCapacity:$('#person').val(), 
+								location:$('#location').val(),
+								CR:$('#CR').val(),
+								kitchen:$('#kitchen').val(), 
+								garage:$('#garage').val(), 
+								meter:$('#meter').val(),
+								numberOfBedrooms:$('#bedrooms').val(),
+								downPayment:$('#downpayment').val(),
+								id: idNow
+								})
+							.done(data =>{
+								if(data){
+									swal('Success', `Room Details are edited`, 'success')
+									$('#editSubmitButton').css('display', 'none');
+									$('#cancelButton').css('display', 'none');
+									$('#editButton').css('display', 'block');
+									$('.palit').attr('readonly', true);
+									$('.palit').attr('required', false);
+								}
+							});
+						});
 					});
+				});
+				$('#roomModal').on('hidden.bs.modal', function(){
+					$('#roomModalTitle').empty()
+					$('#roomDetails').empty()
+					$('#roomModalGallery').empty();
 				});
 			});

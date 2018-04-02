@@ -60,9 +60,18 @@ router.post('/addroom', upload.single('picture'), (req, res) =>{
 });
 
 router.post('/editroom', (req, res) =>{
-    console.log('wala pa mare\n')
     console.log(req.body);
-    res.send(true);
+
+    var queryString = `UPDATE tbl_rooms
+    SET strLocation = ?, dblMonthlyFee = ?, intPaxCapacity = ?, booCR = ?, booKitchen = ?, booGarage = ?, intBedrooms = ?, strDownPaymentRule = ?, booOwnMeter = ?
+    WHERE intRoomID = ?`;
+
+    db.query(queryString, [req.body.location, req.body.monthlyRent, req.body.personCapacity, req.body.CR, req.body.kitchen, req.body.garage, req.body.numberOfBedrooms, req.body.downPayment, req.body.meter, req.body.id], (err, results, fields) =>{
+        if(err) return console.log(err)
+
+        console.log('UPDATED ROOM');
+        return res.send(true);
+    });
 });
 
 router.post('/uploadslip', upload.single('depositSlip'), (req, res) =>{
@@ -114,7 +123,7 @@ router.post('/queryroompic', (req, res) =>{
             if(err) return console.log(err)
 
             x.pictureGallery = results;
-            x.pictureGallery.count = results.length;
+            x.count = results.length;
             console.log(x);
 
             return res.send(x);
