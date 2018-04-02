@@ -16,7 +16,7 @@ html(lang='en')
 		link(href='/paperDashboard/css/demo.css', rel='stylesheet')
 		// Fonts and icons
 		link(href='/paper/font-awesome-4.7.0/css/font-awesome.min.css', rel='stylesheet')
-		link(href='https://fonts.googleapis.com/css?family=Muli:400,300', rel='stylesheet', type='text/css')
+		link(href='/paperDashboard/fonts/cssbba8.css?family=Muli:400,300', rel='stylesheet', type='text/css')
 		link(href='/paperDashboard/css/themify-icons.css', rel='stylesheet')
 		link(rel="stylesheet", href="/paper/css/photoswipe.css")
 		link(href='/paperWizard/css/dropify.css', rel='stylesheet')
@@ -39,23 +39,15 @@ html(lang='en')
 								img(src='/paperDashboard/img/faces/face-2.jpg')
 							a.collapsed(data-toggle='collapse', href='#collapseExample')
 								span
-									| Chet Faker
+									| #{user.strFirstName} #{user.strLastName}
 									b.caret
 							.clearfix
 							#collapseExample.collapse
 								ul.nav
 									li
-										a(href='#profile')
-											span.sidebar-mini Mp
-											span.sidebar-normal My Profile
-									li
-										a(href='#edit')
-											span.sidebar-mini Ep
-											span.sidebar-normal Edit Profile
-									li
-										a(href='#settings')
-											span.sidebar-mini S
-											span.sidebar-normal Settings
+										a(href='/logout')
+											span.sidebar-mini L
+											span.sidebar-normal Logout
 					ul.nav
 						li
 							a(href='/landlord')
@@ -138,27 +130,31 @@ html(lang='en')
 					.container-fluid
 						.row
 							.col-lg-4.col-sm-6
-								.card
-									.card-content
-										.row
-											.col-xs-7
-												.numbers.pull-left
-													| PhP 5,000
-											.col-xs-5
-												.pull-right
-													span.label.label-success
-														| Status
-										h6.big-title
-											| Room
-											span.text-muted  no.
-											|  23
-										img(src='/paper/img/img-1.jpg')
-									.card-footer
-										hr
-										.footer-title &nbsp;
-										.pull-right
-											button.btn.btn-info.btn-fill.btn-icon.btn-sm(data-toggle='modal' data-target='#roomModal')
-												i.ti-eye
+								each room in roomsForPug
+									.card
+										.card-content
+											.row
+												.col-xs-7
+													.numbers.pull-left PhP #{room.dblMonthlyFee}
+												.col-xs-5
+													.pull-right
+														- if(room.booStatus == 0)
+															span.label.label-success Vacant
+														- if(room.booStatus == 1)
+															span.label.label-danger Occupied
+											h6.big-title Room
+												span.text-muted  no.
+												|  #{room.intRoomID}
+										.card-footer
+											hr
+											.footer-title &nbsp;
+											.pull-right
+												button.btn.btn-secondary.btn-fill.btn-icon.btn-sm.picAddButton(type='button' value=`${room.intRoomID}`) Add Picture
+													span
+														| &nbsp;
+														i.ti-plus
+												button.btn.btn-info.btn-fill.btn-icon.btn-sm.roomButton(type='button' value=`${room.intRoomID}`)
+													i.ti-eye
 				footer.footer
 					.container-fluid
 						nav.pull-left
@@ -180,71 +176,46 @@ html(lang='en')
 		#roomModal.modal.fade(tabindex='-1', role='dialog', aria-hidden='false')
 			.modal-dialog.modal-register
 				.modal-content
-					.modal-header.no-border-header.text-center
+					.modal-header.no-border-header.text-center#roomModalTitle
 						button.close(type='button', data-dismiss='modal', aria-label='Close')
 							span(aria-hidden='true') ×
-						h3.modal-title.text-center Room 23
 					.modal-body
 						form(method='POST' action='#')
 							center
 								h4.text-muted Room Pictures
 							.my-gallery(itemscope='', itemtype='')
-								.row
+								.row#roomModalGallery
 									figure.col-md-3.col-sm-4.gallery-item(itemprop='associatedMedia', itemscope='', itemtype='')
 										a(href='/paper/img/img-1.jpg', itemprop='contentUrl', data-size='750x1002')
 											img.vertical-image.img-rounded.img-responsive(src='/paper/img/img-1.jpg', itemprop='thumbnail', alt='Image description')
 										figcaption.gallery-caption(itemprop='caption description') Living Room
 								.row
 									.col-md-12#roomDetails
-										center
-											h4.text-muted Room Details
-										.row
-											.col-md-7
-												label Monthly Rent
-												input.form-control.palit#monthlyRent(type='number' name='monthlyRent' value='5000' readonly)
-										.row
-											.col-md-7
-												label Person Capacity
-												input.form-control.palit#person(type='number' name='personCapacity' value='3' readonly)
-										.row
-											.col-md-6
-												label With Comfort Room
-												select.selectpicker.palit#CR(name='CR' da data-size='2' data-style="btn btn-mayora btn-block" readonly)
-													option(value='1') Yes
-													option(value='0' selected) No
-											.col-md-6
-												label With Kitchen
-												select.selectpicker.palit#kitchen(name='kitchen' data-size='2' data-style="btn btn-mayora btn-block" readonly)
-													option(value='1') Yes
-													option(value='0' selected) No
-										.row
-											.col-md-6
-												label With Garage
-												select.selectpicker.palit#garage(name='garage' data-size='2' data-style="btn btn-mayora btn-block" readonly)
-													option(value='1') Yes
-													option(value='0' selected) No
-											.col-md-6
-												label With Own Electric and Water Meter
-												select.selectpicker.palit#meter(name='meter' data-size='2' data-style="btn btn-mayora btn-block" readonly)
-													option(value='1') Yes
-													option(value='0' selected) No
-										.row
-											.col-md-7
-												label Number of Bedrooms
-												input.form-control.palit#bedrooms(type='number' name='numberOfBedrooms' value='1' readonly)
-										.row
-											.col-md-7
-												label Down Payment Rule
-												input.form-control.palit#downpayment(type='text' name='downPayment' value='1 month deposit, 1 month advance' readonly)
-										.row
-											.col-md-2
-												button#editSubmitButton.btn.btn-warning.btn-block.btn-sm(style='margin-top:5px;display:none') Edit
-											.col-md-2
-												button#cancelButton.btn.btn-danger.btn-block.btn-sm(style='margin-top:5px;display:none') Cancel
 					.modal-footer.no-border-footer
 						.row
 							.col-md-12
 								button.btn.btn-warning.btn-block#editButton Edit Room
+		#picAddModal.modal.fade(tabindex='-1', role='dialog', aria-hidden='false')
+			.modal-dialog.modal-register
+				.modal-content
+					.modal-header.no-border-header.text-center
+						button.close(type='button', data-dismiss='modal', aria-label='Close')
+							span(aria-hidden='true') ×
+						h5.text-muted Room
+						h3.modal-title.text-center Add Picture
+					.modal-body
+						form#picAddForm(method='POST' action='/landlord/addroompic' enctype='multipart/form-data')
+							center
+								h4.text-muted Room Picture
+							.row
+								.col-md-12
+									small One picture at a time 
+										small(style='color:red') *
+									input.dropify(type='file', data-height='200' name='picture' data-width="100" required)
+									small Picture Description
+										small(style='color:red') *
+									input.form-control(type='text' name='pictureDesc' placeholder='Description of Picture' required)
+									button.btn.btn-success.btn-block(type='submit' style='margin-top:10px') Add Picture
 		#roomModalAdd.modal.fade(tabindex='-1', role='dialog', aria-hidden='false')
 			.modal-dialog.modal-register
 				.modal-content
@@ -254,14 +225,17 @@ html(lang='en')
 						h5.text-muted Room
 						h3.modal-title.text-center Add New Room
 					.modal-body
-						form#addForm(method='POST' action='/landlord/addroom')
+						form#addForm(method='POST' action='/landlord/addroom' enctype='multipart/form-data')
 							center
-								h4.text-muted Room Pictures
+								h4.text-muted Room Picture
 							.row
 								.col-md-12
 									small You can add more pictures afterwards
 										small(style='color:red') *
 									input.dropify(type='file', data-height='100' name='picture' data-width="100" required)
+									small Picture Description
+										small(style='color:red') *
+									input.form-control(type='text' name='pictureDesc' placeholder='Description of Picture' required)
 							.row
 								.col-md-12
 									center
@@ -270,12 +244,17 @@ html(lang='en')
 										.col-md-7
 											label Monthly Rent
 												small(style='color:red') *
-											input.form-control(type='number' name='monthlyRent')
+											input.form-control(type='number' name='monthlyRent' required)
+									.row
+										.col-md-7
+											label Location
+												small(style='color:red') *
+											input.form-control(type='text' name='location' required)
 									.row
 										.col-md-7
 											label Person Capacity
 												small(style='color:red') *
-											input.form-control(type='number' min='1' name='personCapacity')
+											input.form-control(type='number' min='1' name='personCapacity' required)
 									.row
 										.col-md-6
 											label With Comfort Room
@@ -424,6 +403,190 @@ html(lang='en')
 							$('.palit').attr('readonly', true);
 							$('.palit').attr('required', false);
 						}
+					});
+				});
+				$('.picAddButton').click(function(){
+					$('#picAddForm').append(`<input type='hidden' name='roomID' value='${$(this).val()}'/>`)
+					$('#picAddModal').modal('show');
+				});
+				$('.roomButton').click(function(){
+					$.post('/landlord/queryroompic', {id: $(this).val()})
+					.done(data =>{
+						$('#roomModalTitle').append(`<h3 class="modal-title text-center">Room ${data.intRoomID}</h3>`)
+						$('#roomDetails').append(`<center>
+							<h4 class="text-muted">Room Details</h4>
+							</center>
+							<div class="row">
+							<div class="col-md-7">
+								<label>Monthly Rent</label>
+								<input id="monthlyRent" type="number" name="monthlyRent" value="${data.dblMonthlyFee}" readonly="readonly" class="form-control palit"/>
+							</div>
+							</div>
+							<div class="row">
+							<div class="col-md-7">
+								<label>Person Capacity</label>
+								<input id="person" type="number" name="personCapacity" value="${data.intPaxCapacity}" readonly="readonly" class="form-control palit"/>
+							</div>
+							</div>
+							<div class="row" id="row1">
+							</div>
+							<div class="row" id="row2">
+							</div>
+							<div class="row">
+							<div class="col-md-7">
+								<label>Number of Bedrooms</label>
+								<input id="bedrooms" type="number" name="numberOfBedrooms" value="${data.intBedrooms}" readonly="readonly" class="form-control palit"/>
+							</div>
+							</div>
+							<div class="row">
+							<div class="col-md-7">
+								<label>Down Payment Rule</label>
+								<input id="downpayment" type="text" name="downPayment" value="${data.strDownPaymentRule}" readonly="readonly" class="form-control palit"/>
+							</div>
+							</div>
+							<div class="row">
+							<div class="col-md-2">
+								<button id="editSubmitButton" style="margin-top:5px;display:none" class="btn btn-warning btn-block btn-sm">Edit</button>
+							</div>
+							<div class="col-md-2">
+								<button id="cancelButton" style="margin-top:5px;display:none" class="btn btn-danger btn-block btn-sm">Cancel</button>
+							</div>
+							</div>`)
+						//CONDITION ON ROW 1
+						if(data.booCR == 1 && data.booKitchen == 1){
+							$('#row1').append(`<div class="col-md-6">
+								<label>With Comfort Room</label>
+								<select id="CR" name="CR" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+									<option value="1" selected="selected">Yes</option>
+									<option value="0">No</option>
+								</select>
+							</div>
+							<div class="col-md-6">
+								<label>With Kitchen</label>
+								<select id="kitchen" name="kitchen" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+									<option value="1" selected>Yes</option>
+									<option value="0">No</option>
+								</select>
+							</div>`)
+						}
+						else if(data.booCR == 0 && data.booKitchen == 0){
+							$('#row1').append(`<div class="col-md-6">
+									<label>With Comfort Room</label>
+									<select id="CR" name="CR" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+									<option value="1">Yes</option>
+									<option value="0" selected>No</option>
+									</select>
+								</div>
+								<div class="col-md-6">
+									<label>With Kitchen</label>
+									<select id="kitchen" name="kitchen" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+									<option value="1">Yes</option>
+									<option value="0" selected>No</option>
+									</select>
+								</div>`)
+						}
+						else if(data.booCR == 1 && data.booKitchen == 0){
+							$('#row1').append(`<div class="col-md-6">
+									<label>With Comfort Room</label>
+									<select id="CR" name="CR" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+									<option value="1" selected>Yes</option>
+									<option value="0">No</option>
+									</select>
+								</div>
+								<div class="col-md-6">
+									<label>With Kitchen</label>
+									<select id="kitchen" name="kitchen" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+									<option value="1">Yes</option>
+									<option value="0" selected>No</option>
+									</select>
+								</div>`)
+						}
+						else if(data.booCR == 0 && data.booKitchen == 1){
+							$('#row1').append(`<div class="col-md-6">
+									<label>With Comfort Room</label>
+									<select id="CR" name="CR" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+									<option value="1">Yes</option>
+									<option value="0" selected>No</option>
+									</select>
+								</div>
+								<div class="col-md-6">
+									<label>With Kitchen</label>
+									<select id="kitchen" name="kitchen" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+									<option value="1" selected>Yes</option>
+									<option value="0">No</option>
+									</select>
+								</div>`)
+						}
+						// CONDITION ON ROW 2
+						if(data.booGarage == 0 && data.booOwnMeter == 0){
+							$('#row2').append(`<div class="col-md-6">
+								<label>With Garage</label>
+								<select id="garage" name="garage" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+								<option value="1">Yes</option>
+								<option value="0" selected>No</option>
+								</select>
+							</div>
+							<div class="col-md-6">
+								<label>With Own Electric and Water Meter</label>
+								<select id="meter" name="meter" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+								<option value="1">Yes</option>
+								<option value="0" selected>No</option>
+								</select>
+							</div>`)
+						}
+						else if(data.booGarage == 1 && data.booOwnMeter == 1){
+								$('#row2').append(`<div class="col-md-6">
+									<label>With Garage</label>
+									<select id="garage" name="garage" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+									<option value="1" selected>Yes</option>
+									<option value="0">No</option>
+									</select>
+								</div>
+								<div class="col-md-6">
+									<label>With Own Electric and Water Meter</label>
+									<select id="meter" name="meter" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+									<option value="1" selected>Yes</option>
+									<option value="0">No</option>
+									</select>
+								</div>`)
+						}
+						else if(data.booGarage == 1 && data.booOwnMeter == 0){
+								$('#row2').append(`<div class="col-md-6">
+									<label>With Garage</label>
+									<select id="garage" name="garage" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+									<option value="1" selected>Yes</option>
+									<option value="0">No</option>
+									</select>
+								</div>
+								<div class="col-md-6">
+									<label>With Own Electric and Water Meter</label>
+									<select id="meter" name="meter" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+									<option value="1">Yes</option>
+									<option value="0" selected>No</option>
+									</select>
+								</div>`)
+						}
+						else if(data.booGarage == 0 && data.booOwnMeter == 1){
+								$('#row2').append(`<div class="col-md-6">
+									<label>With Garage</label>
+									<select id="garage" name="garage" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+									<option value="1">Yes</option>
+									<option value="0" selected>No</option>
+									</select>
+								</div>
+								<div class="col-md-6">
+									<label>With Own Electric and Water Meter</label>
+									<select id="meter" name="meter" data-size="2" data-style="btn btn-mayora btn-block" readonly="readonly" class="selectpicker palit">
+									<option value="1" selected>Yes</option>
+									<option value="0">No</option>
+									</select>
+								</div>`)
+						}
+						$('.selectpicker').each(function () {
+							var $selectpicker = $(this);
+							Plugin.call($selectpicker, $selectpicker.data());
+						})
+						$('#roomModal').modal('show');
 					});
 				});
 			});

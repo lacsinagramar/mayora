@@ -63,4 +63,61 @@ router.post('/querypayments', (req, res) =>{
     });
 });
 
+router.post('/verifypayment', (req, res) =>{
+    var queryString = `UPDATE tbl_landlord_account_payment SET booStatus = 1 WHERE intAccountPaymentID = ?`;
+
+    db.query(queryString, [req.body.id], (err, results, fields) =>{
+        if(err) return console.log(err)
+
+        return nextQuery();
+    });
+
+    function nextQuery(){
+        db.query('SELECT strLandlordID FROM tbl_landlord_account_payment WHERE intAccountPaymentID = ?', [req.body.id], (err, results, fields) =>{
+            if(err) return console.log(err);
+
+            console.log(results[0]);
+            return res.send(results[0]);
+        });
+    }
+});
+
+router.post('/rejectpayment', (req, res) =>{
+    var queryString = `UPDATE tbl_landlord_account_payment SET booStatus = 2 WHERE intAccountPaymentID = ?`;
+
+    db.query(queryString, [req.body.id], (err, results, fields) =>{
+        if(err) return console.log(err)
+
+        console.log(results);
+
+        return res.send(true);
+    });
+});
+
+router.post('/verifylandlord', (req, res) =>{
+    var queryString = `UPDATE tbl_landlord_accounts SET booStatus = 3 WHERE strLandlordID = ?`;
+
+    db.query(queryString, [req.body.id], (err, results, fields) =>{
+        if(err) return console.log(err)
+
+        console.log(results);
+        console.log('//FIELDS\n'+fields);
+
+        return res.send(true);
+    });
+});
+
+router.post('/rejectlandlord', (req, res) =>{
+    var queryString = `UPDATE tbl_landlord_accounts SET booStatus = 2 WHERE strLandlordID = ?`;
+
+    db.query(queryString, [req.body.id], (err, results, fields) =>{
+        if(err) return console.log(err)
+
+        console.log(results);
+        console.log('//FIELDS\n'+fields);
+
+        return res.send(true);
+    });
+});
+
 exports.admin = router;

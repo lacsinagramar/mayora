@@ -15,7 +15,7 @@ html(lang='en')
 		link(href='/paperDashboard/css/demo.css', rel='stylesheet')
 		// Fonts and icons
 		link(href='/paper/font-awesome-4.7.0/css/font-awesome.min.css', rel='stylesheet')
-		link(href='../../../../fonts.googleapis.com/cssbba8.css?family=Muli:400,300', rel='stylesheet', type='text/css')
+		link(href='/paperDashboard/fonts/cssbba8.css?family=Muli:400,300', rel='stylesheet', type='text/css')
 		link(href='/paperDashboard/css/themify-icons.css', rel='stylesheet')
 	body
 		.wrapper
@@ -36,23 +36,15 @@ html(lang='en')
 								img(src='/paperDashboard/img/faces/face-2.jpg')
 							a.collapsed(data-toggle='collapse', href='#collapseExample')
 								span
-									| Chet Faker
+									| #{user.strFirstName} #{user.strLastName}
 									b.caret
 							.clearfix
 							#collapseExample.collapse
 								ul.nav
 									li
-										a(href='#profile')
-											span.sidebar-mini Mp
-											span.sidebar-normal My Profile
-									li
-										a(href='#edit')
-											span.sidebar-mini Ep
-											span.sidebar-normal Edit Profile
-									li
-										a(href='#settings')
-											span.sidebar-mini S
-											span.sidebar-normal Settings
+										a(href='/logout')
+											span.sidebar-mini L
+											span.sidebar-normal Logout
 					ul.nav
 						li.active
 							a(href='/landlord')

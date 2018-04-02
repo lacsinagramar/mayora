@@ -23,6 +23,12 @@ exports.isVerifiedLandlord = (req, res, next) => {
     return res.redirect('/landlord/verify');
 }
 
+exports.isNotVerifiedLandlord = (req, res, next) => {
+    if (req.session && req.session.user && req.session.user.strLandlordID && req.session.user.booStatus !== 3) return next();
+    
+    return res.redirect('/index');
+}
+
 exports.isAdmin = (req, res, next) => {
     if (req.session && req.session.user && req.session.user.usernameAdmin) return next();
 
