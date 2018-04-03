@@ -37,8 +37,14 @@ html(lang='en')
 					ul.navbar-nav.ml-auto
 						li.nav-item
 							p.nav-link Welcome! #{user.strFirstName} #{user.strLastName}
+						li.nav-item.dropdown
+							a.nav-link.dropdown-toggle(data-toggle='dropdown' href='javascript:void(0)') Notifications - #{user.notif.length}
+							ul.dropdown-menu.dropdown-menu-right
+								each notif in user.notif
+									a.dropdown-item.notifAlert(href='javascript:void(0)' value=`${notif.intNotifID}`) #{notif.strNotifDesc}
 						li.nav-item
 							a.nav-link(href='/logout') Logout
+						
 		.wrapper
 			.section.landing(style="background-image: url('/paper/img/img-2.jpg')")
 				.container
@@ -163,6 +169,9 @@ html(lang='en')
 					.pswp__caption
 						.pswp__caption__center
 		form#reload(method='get' action='/tenant')
+		form#invoice(method='get' action='/tenant/invoice')
+			input#invID(type='hidden' name='id' value='')
+		form#redirect(method='get' action='')
 		// Core JS Files
 		script(src='/paper/js/jquery.min.js', type='text/javascript')
 		script(src='/paper/js/jquery-ui-1.12.1.custom.min.js', type='text/javascript')
@@ -219,6 +228,27 @@ html(lang='en')
 							swal("Rent request is cancelled", {
 								icon: "error",
 								title: "Request Cancelled"
+							});
+						}
+					});
+				});
+				$('.notifAlert').click(function(){
+					var idNow = $(this).attr('value');
+					$.post('/tenant/determinenotif', {id: idNow})
+					.done(data =>{
+						if(data.url){
+							swal({
+								title: `${data.invoiceID}`,
+								text: "This is IMPORTANT. Please copy this Reference Code for Future Purposes",
+								icon: "warning",
+								buttons: true,
+								dangerMode: true,
+							})
+							.then((accepted) => {
+								if (accepted) {
+									$('#invID').val(`${data.invoiceID}`)
+									$('#invoice').submit();
+								}
 							});
 						}
 					});

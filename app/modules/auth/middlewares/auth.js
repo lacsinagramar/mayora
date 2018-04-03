@@ -11,6 +11,12 @@ exports.isTenant = (req, res, next) => {
     return res.redirect('/index');
 }
 
+exports.isVerifiedTenant = (req, res, next) => {
+    if (req.session && req.session.user && req.session.user.strTenantId && req.session.user.booStatus === 1) return next();
+    
+    return res.redirect('/logout');
+}
+
 exports.isLandlord = (req, res, next) => {
     if (req.session && req.session.user && req.session.user.strLandlordID) return next();
     

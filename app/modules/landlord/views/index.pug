@@ -17,6 +17,8 @@ html(lang='en')
 		link(href='/paper/font-awesome-4.7.0/css/font-awesome.min.css', rel='stylesheet')
 		link(href='/paperDashboard/fonts/cssbba8.css?family=Muli:400,300', rel='stylesheet', type='text/css')
 		link(href='/paperDashboard/css/themify-icons.css', rel='stylesheet')
+		// Sweetalert
+		link(href='/paperDashboard/css/sweetalert.css', rel='stylesheet')
 	body
 		.wrapper
 			.sidebar(data-background-color='brown', data-active-color='mayora')
@@ -80,7 +82,7 @@ html(lang='en')
 											span.sidebar-mini P
 											span.sidebar-normal Payments
 									li
-										a(href='/landlord/deposits')
+										a(href='/landlord/contract')
 											span.sidebar-mini D
 											span.sidebar-normal Deposits
 						li
@@ -107,21 +109,17 @@ html(lang='en')
 								li.dropdown
 									a.dropdown-toggle.btn-rotate(href='#notifications', data-toggle='dropdown')
 										i.ti-bell
-										span.notification 5
+										span.notification #{user.notif.length}
 										p.hidden-md.hidden-lg
 											| Notifications
 											b.caret
 									ul.dropdown-menu
-										li
-											a(href='#not1') Notification 1
-										li
-											a(href='#not2') Notification 2
-										li
-											a(href='#not3') Notification 3
-										li
-											a(href='#not4') Notification 4
-										li
-											a(href='#another') Another notification
+										- if(user.notif.length == '0')
+											li
+												a(href='javascript:void(0)') You have no notifications
+										each notif in user.notif
+											li
+												a.notifAlert(href='javascript:void(0)' value=`${notif.intNotifID}`) #{notif.strNotifDesc}
 				.content
 					.container-fluid
 						.row
@@ -304,6 +302,7 @@ html(lang='en')
 							i.fa.fa-heart.heart
 							|  by 
 							a Mayora Team
+		form#redirect(method='get' action='')
 		// Core JS Files. Extra: TouchPunch for touch library inside jquery-ui.min.js
 		script(src='/paperDashboard/js/jquery-3.1.1.min.js', type='text/javascript')
 		script(src='/paperDashboard/js/jquery-ui.min.js', type='text/javascript')
@@ -323,8 +322,39 @@ html(lang='en')
 		script(src='/paperDashboard/js/jquery.sharrre.js')
 		// Paper Dashboard PRO DEMO methods, don't include it in your project!
 		script(src='/paperDashboard/js/demo.js')
+		// sweetalert
+		script(src='/paperDashboard/js/sweetalert.js')
 		script(type='text/javascript').
 			$(document).ready(function(){
-			demo.initOverviewDashboard();
-			demo.initCirclePercentage();
+				$('.notifAlert').click(function(){
+					$.post('/landlord/determineNotif', {id: $(this).attr('value')})
+					.done(data =>{
+						if(data.tenantID){
+							swal({
+								title: "Accept Request?",
+								text: "This will notify Tenant and will provide him an invoice to be paid",
+								icon: "warning",
+								buttons: true,
+								dangerMode: true,
+							})
+							.then((accepted) => {
+								if (accepted) {
+									$.post('/landlord/notifytenant', {tenantId: data.tenantID, notifId: data.notifID, reqCode: data.reqCode})
+									.done(data =>{
+										swal("Tenant is now notified", {
+											icon: "success",
+											title: "Accepted!"
+										});
+										$('#redirect').attr('action', `${data.url}`)
+										$('#redirect').submit();
+									})
+								}
+							});
+						}
+						else if(data.url){
+							$('#redirect').attr('action', `${data.url}`)
+							$('#redirect').submit();
+						}
+					})
+				});
 			});

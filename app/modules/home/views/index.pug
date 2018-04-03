@@ -17,6 +17,8 @@ html(lang='en')
 		link(href='/paper/font-awesome-4.7.0/css/font-awesome.min.css', rel='stylesheet')
 		link(href='/paper/css/nucleo/nucleo-icons.css', rel='stylesheet')
 		link(href='/paper/css/nucleo/nucleo.css', rel='stylesheet')
+		// Sweetalert
+		link(href='/paperDashboard/css/sweetalert.css', rel='stylesheet')
 	body
 		nav.navbar.navbar-expand-lg.fixed-top.navbar-transparent.nav-down(color-on-scroll='500')
 			.container
@@ -237,6 +239,8 @@ html(lang='en')
 		script(src='/paper/js/bootstrap.min.js', type='text/javascript')
 		// Control Center for Paper Kit: parallax effects, scripts for the example pages etc
 		script(src='/paper/js/paper-kitf066.js?v=2.1.0')
+		// sweetalert
+		script(src='/paperDashboard/js/sweetalert.js')
 		//SMOOTH SCROLL
 		script.
 			$(document).ready(function(){
@@ -269,7 +273,14 @@ html(lang='en')
 
 					$.post('/login', {strUsername: strUsername, strPassword: strPassword})
 					.done(data =>{
-						$('#redirect').attr('action', ''+data.url).submit()
+						if(data.url)
+							$('#redirect').attr('action', ''+data.url).submit()
+						else{
+							swal("Please make sure your username and password is correct", {
+								icon: "error",
+								title: "User Not Found"
+							});
+						}
 					});
 				});
 			});

@@ -136,8 +136,86 @@ router.post('/savenotifID', (req, res) =>{
     res.send(true);
 });
 
-router.get('/contract', (req, res) =>{
-    res.render('landlord/views/contract');
+router.post('/determineNotif', (req, res) =>{
+    db.query('SELECT * FROM tbl_landlord_notifications WHERE intNotifID = ?', [req.body.id], (err, results, fields) =>{
+        if(err) return console.log(err)
+
+        console.log(results[0].strNotifDesc[0]);
+        var notifType = []
+        notifType = results[0].strNotifDesc.split(' ');
+
+        if(notifType[0] == 'R') return res.send({notifID: req.body.id, tenantID: notifType[3], reqCode: notifType[15]});
+        else if(notifType[0] == 'P') return res.send({url: 'landlord/contract'});
+    });
+});
+
+router.post('/notifytenant', (req, res) =>{
+    var queryString1 = `INSERT INTO tbl_tenant_notifications (intNotifID, strTenantId, strNotifDesc) VALUES (?, ?, 'A - Landlord ${req.session.user.strLandlordID} has accepted your request with code ${req.body.reqCode} . Open this to generate invoice')`;
+    var queryString2 = `UPDATE tbl_landlord_notifications SET booStatus = 1 WHERE intNotifID = ?`;
+
+    db.query(queryString1, [req.body.notifId, req.body.tenantId], (err, results, fields) =>{
+        if(err) return console.log(err);
+
+        console.log('INSERTED TENANT NOTIF');
+        return nextQuery();
+    });
+
+    function nextQuery(){
+        db.query(queryString2, [req.body.notifId], (err, results, fields) =>{
+            if(err) return console.log(err);
+
+            console.log('DONE LANDLORD NOTIF');
+
+            return res.send({url: '/landlord/rooms'});
+        })
+    }
+});
+
+// router.get('/contract')
+
+router.get('/ewanko', (req, res) =>{
+    console.log(req.session.user);
+    var queryString1 = `SELECT * FROM tbl_landlord_notifications WHERE intNotifID = ${req.session.notifID}`;
+    var queryString2 = `SELECT * FROM tbl_landlord_accounts WHERE strLandlordID = '${req.session.user.strLandlordID}'`;
+    var queryString3 = `SELECT * FROM tbl_tenant_accounts WHERE strTenantId = ?`;
+    var queryString4 = `SELECT * FROM tbl_rooms WHERE intRoomID = ?`;
+
+    db.query(queryString1, (err, results, fields) =>{
+        if(err) return console.log(err)
+
+        var split = [];
+        split = results[0].strNotifDesc.split(' ');
+        console.log(split);
+
+        return query2(split);
+    });
+
+    //Landlord Details
+    function query2(x){
+        db.query(queryString2, (err, results, fields) =>{
+            if(err) return console.log(err)
+
+            return query3(x,results[0]);
+        });
+    }
+
+    //Tenant Details
+    function query3(x, y){
+        db.query(queryString3,[x[1]], (err, results, fields) =>{
+            if(err) return console.log(err);
+
+            return query4(x,y,results[0]);
+        });
+    }
+
+    //Room Details
+    function query4(notifSplit, landlordDetails, tenantDetails){
+        db.query(queryString4,[notifSplit[9]], (err, results, fields) =>{
+            if(err) return console.log(err)
+
+            return res.render('landlord/views/contract', {landlord: landlordDetails, tenant:tenantDetails, room: results[0]});
+        });
+    }
 });
 
 exports.landlord = router;
