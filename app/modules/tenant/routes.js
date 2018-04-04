@@ -123,7 +123,7 @@ router.get('/invoice', middleware.isTenant, middleware.isVerifiedTenant, (req, r
         FROM tbl_invoice JOIN tbl_inspection ON tbl_invoice.intRequestID = tbl_inspection.intInspectionID
         JOIN tbl_rooms ON tbl_inspection.intRoomID = tbl_rooms.intRoomID
         JOIN tbl_landlord_accounts ON tbl_rooms.strLandlordID = tbl_landlord_accounts.strLandlordID
-        WHERE tbl_invoice.strInvoiceID = '${req.query.id}' AND tbl_inspection.strTenantID = ${req.session.user.strTenantId}`;
+        WHERE tbl_invoice.strInvoiceID = '${req.query.id}' AND tbl_inspection.strTenantID = '${req.session.user.strTenantId}'`;
         db.query(queryString, (err, results, fields) =>{
             if(results.length === 0) return res.redirect('/tenant/searchinvoice?notfound');
 
@@ -131,6 +131,10 @@ router.get('/invoice', middleware.isTenant, middleware.isVerifiedTenant, (req, r
             res.render('tenant/views/invoice', {invoiceDetail: results[0], user:req.session.user})
         });
     }else res.redirect('/tenant/searchinvoice');
+});
+
+router.get('/searchinvoice', middleware.isTenant, middleware.isVerifiedTenant, (req, res) =>{
+    res.render('tenant/views/searchinvoice', {user: req.session.user, reqQuery: req.query});
 });
 
 exports.tenant = router;

@@ -6,7 +6,7 @@ html(lang='en')
 		link(rel='icon', type='image/png', href='/logo/logo-black.png')
 		link(rel='apple-touch-icon', sizes='76x76', href='/logo/logo-black.png')
 		meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
-		title Landlord - Dashboard
+		title Landlord - Contracts
 		// Bootstrap core CSS
 		link(href='/paperDashboard/css/bootstrap.min.css', rel='stylesheet')
 		// Paper Dashboard core CSS
@@ -48,7 +48,7 @@ html(lang='en')
 											span.sidebar-mini L
 											span.sidebar-normal Logout
 					ul.nav
-						li.active
+						li
 							a(href='/landlord')
 								i.ti-view-list-alt
 								p
@@ -69,19 +69,19 @@ html(lang='en')
 										a(href='/landlord/tenants')
 											span.sidebar-mini T
 											span.sidebar-normal Tenants
-						li
+						li.active
 							a(data-toggle='collapse', href='#formsExamples')
 								i.ti-clipboard
 								p
 									| Transactions
 									b.caret
-							#formsExamples.collapse
+							#formsExamples.collapse.in
 								ul.nav
 									li
 										a(href='/landlord/payments')
 											span.sidebar-mini P
 											span.sidebar-normal Payments
-									li
+									li.active
 										a(href='/landlord/contract')
 											span.sidebar-mini C
 											span.sidebar-normal Contracts
@@ -103,7 +103,8 @@ html(lang='en')
 								span.icon-bar.bar2
 								span.icon-bar.bar3
 							a.navbar-brand
-								| Dashboard
+								| Contracts
+								button.btn.btn-success(style='margin-left:10px;' data-toggle='modal' data-target='#contractAdd') + Add Contract
 						.collapse.navbar-collapse
 							ul.nav.navbar-nav.navbar-right
 								li.dropdown
@@ -123,167 +124,24 @@ html(lang='en')
 				.content
 					.container-fluid
 						.row
-							.col-lg-3.col-sm-6
-								.card
-									.card-content
-										.row
-											.col-xs-5
-												.icon-big.icon-warning.text-center
-													i.ti-server
-											.col-xs-7
-												.numbers
-													p Capacity
-													| 	                                            105GB
-									.card-footer
-										hr
-										.stats
-											i.ti-reload
-											|  Updated now
-							.col-lg-3.col-sm-6
-								.card
-									.card-content
-										.row
-											.col-xs-5
-												.icon-big.icon-success.text-center
-													i.ti-wallet
-											.col-xs-7
-												.numbers
-													p Revenue
-													| 	                                            $1,345
-									.card-footer
-										hr
-										.stats
-											i.ti-calendar
-											|  Last day
-							.col-lg-3.col-sm-6
-								.card
-									.card-content
-										.row
-											.col-xs-5
-												.icon-big.icon-danger.text-center
-													i.ti-pulse
-											.col-xs-7
-												.numbers
-													p Errors
-													| 	                                            23
-									.card-footer
-										hr
-										.stats
-											i.ti-timer
-											|  In the last hour
-							.col-lg-3.col-sm-6
-								.card
-									.card-content
-										.row
-											.col-xs-5
-												.icon-big.icon-info.text-center
-													i.ti-twitter-alt
-											.col-xs-7
-												.numbers
-													p Followers
-													| 	                                            +45
-									.card-footer
-										hr
-										.stats
-											i.ti-reload
-											|  Updated now
-						.row
-							.col-lg-4.col-sm-6
-								.card
-									.card-content
-										.row
-											.col-xs-7
-												.numbers.pull-left
-													| $34,657
-											.col-xs-5
-												.pull-right
-													span.label.label-success
-														| +18%
-										h6.big-title
-											| total earnings 
-											span.text-muted in last
-											|  ten 
-											span.text-muted quarters
-										#chartTotalEarnings
-									.card-footer
-										hr
-										.footer-title Financial Statistics
-										.pull-right
-											button.btn.btn-info.btn-fill.btn-icon.btn-sm
-												i.ti-plus
-							.col-lg-4.col-sm-6
-								.card
-									.card-content
-										.row
-											.col-xs-7
-												.numbers.pull-left
-													| 169
-											.col-xs-5
-												.pull-right
-													span.label.label-danger
-														| -14%
-										h6.big-title
-											| total subscriptions 
-											span.text-muted in last
-											|  7 days
-										#chartTotalSubscriptions
-									.card-footer
-										hr
-										.footer-title View all members
-										.pull-right
-											button.btn.btn-default.btn-fill.btn-icon.btn-sm
-												i.ti-angle-right
-							.col-lg-4.col-sm-6
-								.card
-									.card-content
-										.row
-											.col-xs-7
-												.numbers.pull-left
-													| 8,960
-											.col-xs-5
-												.pull-right
-													span.label.label-warning
-														| ~51%
-										h6.big-title
-											| total downloads 
-											span.text-muted in last
-											|  6 years
-										#chartTotalDownloads
-									.card-footer
-										hr
-										.footer-title View more details
-										.pull-right
-											button.btn.btn-success.btn-fill.btn-icon.btn-sm
-												i.ti-info
-						.row
-							.col-lg-3.col-sm-6
-								.card.card-circle-chart(data-background-color='blue')
-									.card-header.text-center
-										h5.card-title Dashboard
-										p.description Monthly sales target
-									.card-content
-										#chartDashboard.chart-circle(data-percent='70') 70%
-							.col-lg-3.col-sm-6
-								.card.card-circle-chart(data-background-color='green')
-									.card-header.text-center
-										h5.card-title Orders
-										p.description Completed
-									.card-content
-										#chartOrders.chart-circle(data-percent='34') 34%
-							.col-lg-3.col-sm-6
-								.card.card-circle-chart(data-background-color='orange')
-									.card-header.text-center
-										h5.card-title New Visitors
-										p.description Out of total number
-									.card-content
-										#chartNewVisitors.chart-circle(data-percent='62') 62%
-							.col-lg-3.col-sm-6
-								.card.card-circle-chart(data-background-color='brown')
-									.card-header.text-center
-										h5.card-title Subscriptions
-										p.description Monthly newsletter
-									.card-content
-										#chartSubscriptions.chart-circle(data-percent='10') 10%
+							each result in resultsForPug
+								.col-lg-3.col-sm-6
+									.card
+										.card-content
+											.row
+												.col-xs-5
+													.icon-big.icon-info.text-center
+														i.ti-book
+												.col-xs-7
+													.numbers
+														p Contract for Room
+														| #{result.intRoomID}
+										.card-footer
+											hr
+											.footer-title &nbsp;
+											.pull-right
+												button.btn.btn-info.btn-fill.btn-icon.btn-sm(type='button' value=`${result.intRoomID}`)
+													i.ti-eye
 				footer.footer
 					.container-fluid
 						nav.pull-left
@@ -302,6 +160,25 @@ html(lang='en')
 							i.fa.fa-heart.heart
 							|  by 
 							a Mayora Team
+		//MODALS
+		#contractAdd.modal.fade(tabindex='-1', role='dialog', aria-hidden='false')
+			.modal-dialog.modal-register
+				.modal-content
+					.modal-header.no-border-header.text-center
+						button.close(type='button', data-dismiss='modal', aria-label='Close')
+							span(aria-hidden='true') ×
+						h5.text-muted Contract
+						h3.modal-title.text-center Generate Contract
+					.modal-body
+						.row
+							.col-md-12
+								form#addForm(method='POST' action='/landlord/generatecontract')
+									label Invoice Reference Number
+									input.form-control(type='text' name='invoiceNumber' placeholder='Enter Invoice Ref. No')
+					.modal-footer.no-border-footer
+						.row
+							.col-md-12
+								button.btn.btn-success.btn-block(onclick=`$('#addForm').submit()`) Submit
 		form#redirect(method='get' action='')
 		// Core JS Files. Extra: TouchPunch for touch library inside jquery-ui.min.js
 		script(src='/paperDashboard/js/jquery-3.1.1.min.js', type='text/javascript')

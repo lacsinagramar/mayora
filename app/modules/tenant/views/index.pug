@@ -43,6 +43,8 @@ html(lang='en')
 								each notif in user.notif
 									a.dropdown-item.notifAlert(href='javascript:void(0)' value=`${notif.intNotifID}`) #{notif.strNotifDesc}
 						li.nav-item
+							a.nav-link(href='/tenant/searchinvoice') Invoice
+						li.nav-item
 							a.nav-link(href='/logout') Logout
 						
 		.wrapper
