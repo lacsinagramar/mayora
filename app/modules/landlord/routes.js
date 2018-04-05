@@ -15,7 +15,15 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage})
 
 router.get('/', middleware.isVerifiedLandlord, (req,res) =>{
-    res.render('landlord/views/index', {user: req.session.user});
+    var queryString = `SELECT tbl_room_tenant.intRoomID, tbl_room_tenant.datDateRented FROM tbl_room_tenant
+    JOIN tbl_rooms ON tbl_room_tenant.intRoomID = tbl_rooms.intRoomID
+    WHERE tbl_rooms.strLandlordID = ?`;
+
+    db.query(queryString,[req.session.user.strLandlordID], (err, results, fields) =>{
+        if(err) return console.log(err)
+
+        res.render('landlord/views/index', {user: req.session.user, resultsForPug: results});
+    });
 });
 
 router.get('/rooms', middleware.isVerifiedLandlord, (req,res) =>{
@@ -267,6 +275,24 @@ router.post('/contractsigned', (req, res) =>{
             return res.send(true);
         });
     }
+});
+
+router.get('/billing', middleware.isVerifiedLandlord, (req, res) =>{
+    var queryString = `SELECT tbl_rooms.dblMonthlyFee, tbl_room_tenant.datDateRented, tbl_rooms.intRoomID FROM tbl_rooms
+    JOIN tbl_room_tenant ON tbl_rooms.intRoomID = tbl_room_tenant.intRoomID
+    WHERE tbl_rooms.strLandlordID = '${req.session.user.strLandlordID}' AND tbl_rooms.booOwnMeter = 0 AND tbl_rooms.booStatus = 1`;
+
+    db.query(queryString, (err, results, fields) =>{
+        if(err) return console.log(err)
+
+        for(var x=0;x<results.length;x++){
+            results[x].datDateRented = moment(results[x]).format('MM-DD-YYYY');
+            
+        }
+
+        console.log(results);
+        return res.render('landlord/views/billing', {user: req.session.user, resultsForPug:results, loop:results.length});
+    });
 });
 
 exports.landlord = router;

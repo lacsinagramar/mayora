@@ -80,9 +80,9 @@ html(lang='en')
 							#formsExamples.collapse
 								ul.nav
 									li
-										a(href='/landlord/payments')
-											span.sidebar-mini P
-											span.sidebar-normal Payments
+										a(href='/landlord/billing')
+											span.sidebar-mini B
+											span.sidebar-normal Billing
 									li
 										a(href='/landlord/contract')
 											span.sidebar-mini C
@@ -148,12 +148,20 @@ html(lang='en')
 											hr
 											.footer-title &nbsp;
 											.pull-right
-												button.btn.btn-secondary.btn-fill.btn-icon.btn-sm.picAddButton(type='button' value=`${room.intRoomID}`) Add Picture
-													span
-														| &nbsp;
-														i.ti-plus
-												button.btn.btn-info.btn-fill.btn-icon.btn-sm.roomButton(type='button' value=`${room.intRoomID}`)
-													i.ti-eye
+												- if(room.booStatus != 1)
+													button.btn.btn-secondary.btn-fill.btn-icon.btn-sm.picAddButton(type='button' value=`${room.intRoomID}`) Add Picture
+														span
+															| &nbsp;
+															i.ti-plus
+													button.btn.btn-info.btn-fill.btn-icon.btn-sm.roomButton(type='button' value=`${room.intRoomID}`)
+														i.ti-eye
+												- if(room.booStatus == 1)
+													button.btn.btn-secondary.btn-fill.btn-icon.btn-sm.picAddButton(type='button' value=`${room.intRoomID}` disabled) Add Picture
+														span
+															| &nbsp;
+															i.ti-plus
+													button.btn.btn-info.btn-fill.btn-icon.btn-sm.roomButton(type='button' value=`${room.intRoomID}` disabled)
+														i.ti-eye
 				footer.footer
 					.container-fluid
 						nav.pull-left
