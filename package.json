@@ -4,11 +4,12 @@
   "description": "Generic Apartment Rental Management System",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PUP-CCIS/express-boilerplate.git"
+    "url": "git+https://github.com/lacsinagramar/mayora.git"
   },
   "keywords": [
     "expressjs",
@@ -17,9 +18,9 @@
   "author": "Gramar Lacsina",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/PUP-CCIS/express-boilerplate/issues"
+    "url": "https://github.com/lacsinagramar/mayora/issues"
   },
-  "homepage": "https://github.com/PUP-CCIS/express-boilerplate#readme",
+  "homepage": "https://github.com/lacsinagramar/mayora#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
     "dotenv": "^4.0.0",
