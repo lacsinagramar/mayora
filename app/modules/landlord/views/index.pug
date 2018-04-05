@@ -61,10 +61,6 @@ html(lang='en')
 										a(href='/landlord/rooms')
 											span.sidebar-mini R
 											span.sidebar-normal Rooms
-									li
-										a(href='/landlord/tenants')
-											span.sidebar-mini T
-											span.sidebar-normal Tenants
 						li
 							a(data-toggle='collapse', href='#formsExamples')
 								i.ti-clipboard
@@ -119,167 +115,14 @@ html(lang='en')
 				.content
 					.container-fluid
 						.row
-							.col-lg-3.col-sm-6
-								.card
-									.card-content
-										.row
-											.col-xs-5
-												.icon-big.icon-warning.text-center
-													i.ti-server
-											.col-xs-7
-												.numbers
-													p Capacity
-													| 	                                            105GB
-									.card-footer
-										hr
-										.stats
-											i.ti-reload
-											|  Updated now
-							.col-lg-3.col-sm-6
-								.card
-									.card-content
-										.row
-											.col-xs-5
-												.icon-big.icon-success.text-center
-													i.ti-wallet
-											.col-xs-7
-												.numbers
-													p Revenue
-													| 	                                            $1,345
-									.card-footer
-										hr
-										.stats
-											i.ti-calendar
-											|  Last day
-							.col-lg-3.col-sm-6
-								.card
-									.card-content
-										.row
-											.col-xs-5
-												.icon-big.icon-danger.text-center
-													i.ti-pulse
-											.col-xs-7
-												.numbers
-													p Errors
-													| 	                                            23
-									.card-footer
-										hr
-										.stats
-											i.ti-timer
-											|  In the last hour
-							.col-lg-3.col-sm-6
-								.card
-									.card-content
-										.row
-											.col-xs-5
-												.icon-big.icon-info.text-center
-													i.ti-twitter-alt
-											.col-xs-7
-												.numbers
-													p Followers
-													| 	                                            +45
-									.card-footer
-										hr
-										.stats
-											i.ti-reload
-											|  Updated now
-						.row
-							.col-lg-4.col-sm-6
-								.card
-									.card-content
-										.row
-											.col-xs-7
-												.numbers.pull-left
-													| $34,657
-											.col-xs-5
-												.pull-right
-													span.label.label-success
-														| +18%
-										h6.big-title
-											| total earnings 
-											span.text-muted in last
-											|  ten 
-											span.text-muted quarters
-										#chartTotalEarnings
-									.card-footer
-										hr
-										.footer-title Financial Statistics
-										.pull-right
-											button.btn.btn-info.btn-fill.btn-icon.btn-sm
-												i.ti-plus
-							.col-lg-4.col-sm-6
-								.card
-									.card-content
-										.row
-											.col-xs-7
-												.numbers.pull-left
-													| 169
-											.col-xs-5
-												.pull-right
-													span.label.label-danger
-														| -14%
-										h6.big-title
-											| total subscriptions 
-											span.text-muted in last
-											|  7 days
-										#chartTotalSubscriptions
-									.card-footer
-										hr
-										.footer-title View all members
-										.pull-right
-											button.btn.btn-default.btn-fill.btn-icon.btn-sm
-												i.ti-angle-right
-							.col-lg-4.col-sm-6
-								.card
-									.card-content
-										.row
-											.col-xs-7
-												.numbers.pull-left
-													| 8,960
-											.col-xs-5
-												.pull-right
-													span.label.label-warning
-														| ~51%
-										h6.big-title
-											| total downloads 
-											span.text-muted in last
-											|  6 years
-										#chartTotalDownloads
-									.card-footer
-										hr
-										.footer-title View more details
-										.pull-right
-											button.btn.btn-success.btn-fill.btn-icon.btn-sm
-												i.ti-info
-						.row
-							.col-lg-3.col-sm-6
-								.card.card-circle-chart(data-background-color='blue')
-									.card-header.text-center
-										h5.card-title Dashboard
-										p.description Monthly sales target
-									.card-content
-										#chartDashboard.chart-circle(data-percent='70') 70%
-							.col-lg-3.col-sm-6
-								.card.card-circle-chart(data-background-color='green')
-									.card-header.text-center
-										h5.card-title Orders
-										p.description Completed
-									.card-content
-										#chartOrders.chart-circle(data-percent='34') 34%
-							.col-lg-3.col-sm-6
-								.card.card-circle-chart(data-background-color='orange')
-									.card-header.text-center
-										h5.card-title New Visitors
-										p.description Out of total number
-									.card-content
-										#chartNewVisitors.chart-circle(data-percent='62') 62%
-							.col-lg-3.col-sm-6
-								.card.card-circle-chart(data-background-color='brown')
-									.card-header.text-center
-										h5.card-title Subscriptions
-										p.description Monthly newsletter
-									.card-content
-										#chartSubscriptions.chart-circle(data-percent='10') 10%
+							each result in resultsForPug
+								.col-lg-3.col-sm-6
+									.card.card-circle-chart(data-background-color='brown')
+										.card-header.text-center
+											h5.card-title Room ##{result.intRoomID}
+											p.description Due date every month
+										.card-content
+											.chart-circle(data-percent='100') #{result.datDateRented}
 				footer.footer
 					.container-fluid
 						nav.pull-left

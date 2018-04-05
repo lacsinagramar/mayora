@@ -22,6 +22,10 @@ router.get('/', middleware.isVerifiedLandlord, (req,res) =>{
     db.query(queryString,[req.session.user.strLandlordID], (err, results, fields) =>{
         if(err) return console.log(err)
 
+        for(var x =0; x<results.length;x++){
+            results[x].datDateRented = moment(results[x].datDateRented).format('DD');
+        }
+
         res.render('landlord/views/index', {user: req.session.user, resultsForPug: results});
     });
 });
@@ -278,7 +282,7 @@ router.post('/contractsigned', (req, res) =>{
 });
 
 router.get('/billing', middleware.isVerifiedLandlord, (req, res) =>{
-    var queryString = `SELECT tbl_rooms.dblMonthlyFee, tbl_room_tenant.datDateRented, tbl_rooms.intRoomID FROM tbl_rooms
+    var queryString = `SELECT tbl_rooms.dblMonthlyFee, tbl_room_tenant.datDateRented, tbl_rooms.intRoomID, tbl_room_tenant.strTenantID FROM tbl_rooms
     JOIN tbl_room_tenant ON tbl_rooms.intRoomID = tbl_room_tenant.intRoomID
     WHERE tbl_rooms.strLandlordID = '${req.session.user.strLandlordID}' AND tbl_rooms.booOwnMeter = 0 AND tbl_rooms.booStatus = 1`;
 
